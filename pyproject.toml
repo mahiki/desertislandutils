@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "desertislandutils"
+version = "0.1.0"
+description = "A collection of personal convenience utilities"
+authors = ["mahiki <mahiki@users.noreply.github.com>"]
+license = "MIT"
+packages = [
+    { include = "src/toobigdatadoc" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+argparse = "^1.4.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+too = 'src/toobigdatadoc.__main__:main'
