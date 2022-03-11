@@ -77,6 +77,8 @@ print("arg1: {}".format(args.topdir))
 
 ```
 ## BLUSH-RESPONSE: GIT ROOT FOLDER
+PASS: git topdir folders and symlink are being created properly.
+
 [stackoverflow git root folder][sogit]
 [stackoverflow is git repo][isgit]
 
@@ -86,6 +88,7 @@ Relative links are going too require repos are staying in same relative relation
 Absolute links make the repo directory not portable on new machine (must unlink/relink).
 
 Here in bash:
+
 ```bash
 # toodoc
 mkdir $HOME/toodoc/iterm-colors
@@ -123,6 +126,38 @@ repo_dir = subprocess.Popen(['git', 'rev-parse', '--show-toplevel'], stdout=subp
 import subprocess
 def getGitRoot():
     return subprocess.Popen(['git', 'rev-parse', '--show-toplevel'], stdout=subprocess.PIPE).communicate()[0].rstrip().decode('utf-8')
+```
+
+## BLUSH-RESPONSE: relative symlink creation
+* pathlib doesnt support creating relative symlink, although GNU ln -s does:
+* could call the shell, invites other problems though
+* i guess assemble all those dots manually by counting sections
+
+```bash
+ln -s --relative /Users/segovia/toobig/desertislandutils/tests/big_folder_test bigg
+ls
+    # bigg -> ../../../../../toobig/desertislandutils/tests/big_folder_test
+```
+
+```python
+relative_to_home = Path.cwd().relative_to(Path.home())
+    # PosixPath('repo/python-dev/desertislandutils/tests/big_folder_test')
+
+# notice that the CWD relative to HOME has 5 elements:
+os.listdir('../../../../../')
+    # home folder contents
+
+# CREATE RELATIVE PATH FROM STRING
+pathstring = str(relative_to_home)
+levels_to_home = len(pathstring.split('/'))           # breaking Windows compatibility
+    # 5
+
+dots_home = '../' * levels_to_home
+
+
+
+
+
 ```
 
 ## BLUSH-RESPONSE: too topdir

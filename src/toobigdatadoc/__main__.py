@@ -9,7 +9,23 @@ too big|data|doc
 
 from argparse import ArgumentParser
 from git import Repo
-from pathlib import Path, PosixPath
+from pathlib import Path
+
+def call_the_parser():
+    parser = ArgumentParser(
+            prog = "too"
+            , description = "Create symlinked parallel folders to contain data/binary files outside of\n git repo or away from source/text files."
+        )
+
+    parser.add_argument(
+        'arg1'
+        , choices = ['big', 'data', 'doc']
+        , help = "large files to exclude from backup, smallish datasets, binary files like pdf"
+        )
+
+    args = parser.parse_args()
+
+    return args.arg1
 
 def is_git_repo(path):
     try:
@@ -18,58 +34,50 @@ def is_git_repo(path):
     except exc.InvalidGitRepositoryError:
         return False
 
-def get_repo_root(path):
+def repo_root(repo_path):
     try:
-        repo = Repo('.', search_parent_directories=True)
+        repo = Repo(repo_path, search_parent_directories=True)
         return Path(repo.working_tree_dir)
     except exc.InvalidGitRepositoryError:
         return None
 
-def top_dir_path(tbdd):
+def top_dir_rel_path(tbdd):
     switch = {
-        'big': "toobig"
-        , 'data': "toodata"
-        , 'doc': "toodoc"
+        'big': 'toobig'
+        , 'data': 'toodata'
+        , 'doc': 'toodoc'
         }
-    top_path = Path.home() / switch.get(tbdd, "Input must be member of {big,data,doc}")
-    return top_path
+    topname = switch.get(tbdd, "ERROR")
+    relative_path_home = str(Path.cwd().relative_to(Path.home()))
+    levels_home = len(relative_path_home.split('/'))
+    dots_home = '../' * levels_home
 
-def parse_cli_args():
-    parser = ArgumentParser(
-            prog = "too"
-            , description = "Create symlinked parallel folders to contain data/binary files outside of\n git repo or away from source/text files."
-        )
+    return Path(dots_home) / topname
 
-    parser.add_argument(
-        'topdir'
-        , choices = ['big', 'data', 'doc']
-        , help = "large files to exclude from backup, smallish datasets, binary files like pdf"
-        )
-    args = parser.parse_args()
+def make_topdir_and_link(topdir_choice, new_path):
+    try:
+        new_path.mkdir(parents=True, exist_ok=True)
+    except:
+        print("Could not make TooPath directory.")
+    try:
+        Path(topdir_choice).symlink_to(new_path)
+    except FileExistsError:
+        print("Symlink already exists")
 
-    print("top_dir_arg: {}".format(args.topdir))
-    return args.topdir
+def too_rel_path(any_path):
+    if is_git_repo(any_path):
+        repo_root_path = repo_root(any_path)
+        path_from_root = any_path.relative_to(repo_root_path)
+        return top_dir_rel_path(topdir_name) / repo_root_path.name / path_from_root
+    else:
+        path_from_home = any_path.relative_to(Path.home())
+        return top_dir_rel_path(topdir_name) / path_from_home
+
 
 def main():
-    topdir = parse_cli_args()
+    topdir_name = call_the_parser()
 
-    if is_git_repo(Path.cwd()):
-        repo_root = get_repo_root(Path.cwd())
-        path_from_root = Path.cwd().relative_to(repo_root)
-        too_path = top_dir_path(topdir) / repo_root.name / path_from_root
-    else:
-        pass
-        # this will be $HOME/top_dir_path/relative_path_from_cwd_to_home
-
-    try:
-        too_path.mkdir(parents=True, exist_ok=True)
-        Path(topdir).symlink_to(too_path)
-    except:
-        print("TooPath and Link creation had problems.")
-
-    print("TOO: you have successfully called the command line. New path to create is:")
-    print(str(too_path))
-
+    make_topdir_and_link(topdir_name, too_rel_path(Path.cwd()))
     
 if __name__ == "__main__":
     main()
