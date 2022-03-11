@@ -6,9 +6,12 @@ Usage:
           
 too big|data|doc
 """
+# TODO: [--verbose, -v] version print 
+#   folder created: ../../../../../toodoc/datasci/biq/biq-206/bigtest
+#   symlink:        doc -> ../../../../../toodoc/datasci/biq/biq-206/bigtest
 
 from argparse import ArgumentParser
-from git import Repo
+from git import Repo, exc
 from pathlib import Path
 
 def call_the_parser():
@@ -54,13 +57,13 @@ def top_dir_rel_path(tbdd):
 
     return Path(dots_home) / topname
 
-def make_topdir_and_link(topdir_choice, new_path):
+def make_topdir_and_link(new_path):
     try:
         new_path.mkdir(parents=True, exist_ok=True)
     except:
         print("Could not make TooPath directory.")
     try:
-        Path(topdir_choice).symlink_to(new_path)
+        Path(TOPDIR_NAME).symlink_to(new_path)
     except FileExistsError:
         print("Symlink already exists")
 
@@ -68,16 +71,17 @@ def too_rel_path(any_path):
     if is_git_repo(any_path):
         repo_root_path = repo_root(any_path)
         path_from_root = any_path.relative_to(repo_root_path)
-        return top_dir_rel_path(topdir_name) / repo_root_path.name / path_from_root
+        return top_dir_rel_path(TOPDIR_NAME) / repo_root_path.name / path_from_root
     else:
         path_from_home = any_path.relative_to(Path.home())
-        return top_dir_rel_path(topdir_name) / path_from_home
+        return top_dir_rel_path(TOPDIR_NAME) / path_from_home
 
 
 def main():
-    topdir_name = call_the_parser()
+    global TOPDIR_NAME
+    TOPDIR_NAME = call_the_parser()
 
-    make_topdir_and_link(topdir_name, too_rel_path(Path.cwd()))
-    
+    make_topdir_and_link(too_rel_path(Path.cwd()))
+
 if __name__ == "__main__":
     main()

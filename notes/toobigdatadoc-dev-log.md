@@ -4,6 +4,29 @@
     * YES: place at `tooroot` top level
     * NO: parallel directory path to file form `tooroot`
 
+
+## IOYCSWISWYE
+* This is working 100% now
+* I like this argparse package, very easy to use.
+* TOPDIR_NAME now global, I don't like passing this to every function down the line.
+* TESTS:
+    * I have here a prototype of tests that could incorporate into module
+    * but must create fresh test folder and git repo, with cleanup
+
+- [desertislandutils.toobigdatadoc](#desertislandutilstoobigdatadoc)
+    - [IOYCSWISWYE](#ioycswiswye)
+    - [INCEP-DATE](#incep-date)
+    - [OFF-WORLD: STRUCTURE](#off-world-structure)
+        - [github repo](#github-repo)
+    - [BLUSH-RESPONSE: SCRIPT SKELETON](#blush-response-script-skeleton)
+    - [BLUSH-RESPONSE: PARSE ARGS](#blush-response-parse-args)
+    - [BLUSH-RESPONSE: GIT ROOT FOLDER](#blush-response-git-root-folder)
+    - [BLUSH-RESPONSE: relative symlink creation](#blush-response-relative-symlink-creation)
+    - [BLUSH-RESPONSE: too topdir](#blush-response-too-topdir)
+    - [VOIGHT-KAMPFF: PASS regular folder](#voight-kampff-pass-regular-folder)
+    - [VOIGHT-KAMPFF: PASS git repo folders](#voight-kampff-pass-git-repo-folders)
+    - [CHEW](#chew)
+
 ## INCEP-DATE
 ```bash
 cd $HOME/repo/python-dev
@@ -36,7 +59,7 @@ Will have to iterate once its clear what the package executable is exported as.
 ### github repo
 after script skeleton is in
 
-repo added to github. remindme has thing to push to new github.
+DONE: repo added to github. remindme has thing to push to new github.
 
 ## BLUSH-RESPONSE: SCRIPT SKELETON
 ```bash
@@ -153,11 +176,7 @@ levels_to_home = len(pathstring.split('/'))           # breaking Windows compati
     # 5
 
 dots_home = '../' * levels_to_home
-
-
-
-
-
+Path(dots_home) / topname
 ```
 
 ## BLUSH-RESPONSE: too topdir
@@ -191,6 +210,94 @@ from pathlib import Path
 Path('textfile.txt').write_text('hello world!')
 Path('link-to-textfile.txt').symlink_to(Path('textfile.txt'))
 ```
+
+## VOIGHT-KAMPFF: PASS regular folder
+```bash
+# PASS: regular folder location
+
+# PASS: help flag
+cd  ~/andromeda/finance/kapital/stelar
+python $HOME/repo/python-dev/desertislandutils/src/toobigdatadoc/__main__.py --help
+    # usage: too [-h] {big,data,doc}
+
+    # Create symlinked parallel folders to contain data/binary files outside of git repo or away from source/text files.
+
+    # positional arguments:
+    #   {big,data,doc}  large files to exclude from backup, smallish datasets, binary files like pdf
+
+    # optional arguments:
+    #   -h, --help      show this help message and exit
+
+
+# PASS: invalid arguments, > 1 args, 0 args
+python $HOME/repo/python-dev/desertislandutils/src/toobigdatadoc/__main__.py 42
+    # usage: too [-h] {big,data,doc}
+    # too: error: argument arg1: invalid choice: '42' (choose from 'big', 'data', 'doc')
+
+python $HOME/repo/python-dev/desertislandutils/src/toobigdatadoc/__main__.py pee poo
+python $HOME/repo/python-dev/desertislandutils/src/toobigdatadoc/__main__.py doc poo
+    # usage: too [-h] {big,data,doc}
+    # too: error: unrecognized arguments: poo
+
+# PASS: correct arg doc/big/data
+    # initial failure, change TOPDIR_NAME to a global
+# PASS: all doc/data/big
+python $HOME/repo/python-dev/desertislandutils/src/toobigdatadoc/__main__.py doc
+
+# PASS: symlink and files created for each
+for file in */*.txt; do
+bat $file
+done
+
+# PASS topdir contents
+for dir in 'toobig' 'toodata' 'toodoc'; do
+ls -1 ~/$dir/**/testfile.txt
+done | sort
+    # /Users/segovia/toobig/andromeda/finance/kapital/stelar/testfile.txt
+    # /Users/segovia/toodata/andromeda/finance/kapital/stelar/testfile.txt
+    # /Users/segovia/toodoc/andromeda/finance/kapital/stelar/testfile.txt
+```
+
+## VOIGHT-KAMPFF: PASS git repo folders
+```bash
+cd  ~/repo/datasci/biq/biq-206
+
+# PASS: help flag, --help 42, 42 --help
+python $HOME/repo/python-dev/desertislandutils/src/toobigdatadoc/__main__.py --help
+
+# PASS: invalid arguments, > 1 args, 0 args
+python $HOME/repo/python-dev/desertislandutils/src/toobigdatadoc/__main__.py 42
+python $HOME/repo/python-dev/desertislandutils/src/toobigdatadoc/__main__.py pee poo
+python $HOME/repo/python-dev/desertislandutils/src/toobigdatadoc/__main__.py doc poo
+
+# PASS: valid args big/data/doc
+python $HOME/repo/python-dev/desertislandutils/src/toobigdatadoc/__main__.py doc
+python $HOME/repo/python-dev/desertislandutils/src/toobigdatadoc/__main__.py big
+python $HOME/repo/python-dev/desertislandutils/src/toobigdatadoc/__main__.py data
+
+for dir in 'big' 'data' 'doc'; do
+    cat << EOF > $dir/testfile.txt
+    This is a hypothetical large data file in a symlinked directory.
+    Developing utility script 'too'
+EOF
+done
+
+# check symlink correct
+for file in */*.txt; do
+bat $file
+done
+
+# check topdir contents
+for dir in 'toobig' 'toodata' 'toodoc'; do
+ls -1 ~/$dir/**/testfile.txt
+done | sort
+    # /Users/segovia/toobig/datasci/biq/biq-206/testfile.txt
+    # /Users/segovia/toodata/datasci/biq/biq-206/testfile.txt
+    # /Users/segovia/toodoc/datasci/biq/biq-206/testfile.txt
+
+```
+
+
 
 ----------
 ## CHEW
