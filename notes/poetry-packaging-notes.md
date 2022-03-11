@@ -1,4 +1,4 @@
-# too big|data|doc in python
+# package too big|data|doc in python
 * refactor too script into python
 * deploy package with poetry
 * install via homebrew
@@ -34,30 +34,6 @@ https://stackoverflow.com/questions/22081209/find-the-root-of-the-git-repository
 https://stackoverflow.com/questions/54572785/create-symlink-with-pathlib
 https://docs.python.org/3/library/pathlib.html
 
-## python snippets
-```py
-repo_dir = subprocess.Popen(['git', 'rev-parse', '--show-toplevel'], stdout=subprocess.PIPE).communicate()[0].rstrip().decode('utf-8')
-
-# as a function
-import subprocess
-def getGitRoot():
-    return subprocess.Popen(['git', 'rev-parse', '--show-toplevel'], stdout=subprocess.PIPE).communicate()[0].rstrip().decode('utf-8')
-
-# get CWD
-import os
-print(os.getcwd())
-
-# stdlib pathlib has current directory of file
-import pathlib
-current_dir = pathlib.Path(__file__).parent
-current_file = pathlib.Path(__file__)
-
-# symlinks
-from pathlib import Path
-Path('textfile.txt').write_text('hello world!')
-Path('link-to-textfile.txt').symlink_to(Path('textfile.txt'))
-
-```
 
 ## PACKAGING
 Q: local or homebrew?
