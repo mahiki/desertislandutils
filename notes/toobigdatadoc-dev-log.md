@@ -4,6 +4,8 @@
     * YES: place at `tooroot` top level
     * NO: parallel directory path to file form `tooroot`
 
+## TODO
+TODO: unit test package
 
 ## IOYCSWISWYE
 * This is working 100% now
@@ -12,8 +14,10 @@
 * TESTS:
     * I have here a prototype of tests that could incorporate into module
     * but must create fresh test folder and git repo, with cleanup
+    * yes, but make test package
 
 - [desertislandutils.toobigdatadoc](#desertislandutilstoobigdatadoc)
+    - [TODO](#todo)
     - [IOYCSWISWYE](#ioycswiswye)
     - [INCEP-DATE](#incep-date)
     - [OFF-WORLD: STRUCTURE](#off-world-structure)

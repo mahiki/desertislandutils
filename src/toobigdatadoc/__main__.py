@@ -30,6 +30,7 @@ def call_the_parser():
 
     return args.arg1
 
+# TODO: combine is_git_repo && repo_root
 def is_git_repo(path):
     try:
         _ = Repo(path, search_parent_directories=True)
