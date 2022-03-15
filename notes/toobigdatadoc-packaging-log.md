@@ -32,14 +32,65 @@ l dist/
 -rw-r--r-- 1 2.8K Mar 11 20:08 desertislandutils-0.1.0-py3-none-any.whl
 
 ```
-**Q: how to install executable from a whl binary?**
+### **Q: how to install executable from a whl binary?**
+A: with pip
 
-## OFF-WORLD: pipx NOPE
+NOTE: pyproject needs following to get right module name:
+
+    # poetry env ../bin/too
+    from src.toobigdatadoc.__main__ import main
+    # pyproject:
+    [tool.poetry.scripts]
+    too = 'src.toobigdatadoc.__main__:main'
+
+```bash
+# PASS: now that i fixed poetry script defn, this works now
+poetry run too --help
+
+# install within the Poetry environment
+    #   (desertislandutils-AVSNhiuH-py3.9)
+python3 -m pip install /Users/segovia/repo/python-dev/desertislandutils/dist/desertislandutils-0.1.0-py3-none-any.whl
+which too
+    # /Users/segovia/Library/Caches/pypoetry/virtualenvs/desertislandutils-AVSNhiuH-py3.9/bin/too
+
+too --help
+#   success, help file and working folder
+
+cd ~/trashwork/poetrytest/desert2
+too big
+# PASS
+```
+
+FIXED: Absolutely no idea how to run my `too --help` command. The problem was in the ../bin/too script import namespace, noted above.
+
+### pipx install wheel to global namespace
+```bash
+brew install pipx
+pipx install /Users/segovia/repo/python-dev/desertislandutils/dist/desertislandutils-0.1.0-py3-none-any.whl
+
+which too
+    # /Users/segovia/repo/enviro-repo/osx-base/dotfiles/.local/bin/too
+
+# did the import work right?
+bat $(which too)
+# File: /Users/segovia/repo/enviro-repo/osx-base/dotfiles/.local/bin/too
+#    5   │ from src.toobigdatadoc.__main__ import main
+
+too --help
+~/trashwork/poetrytest/desert3
+too data
+# PASS: it works!
+
+
+```
+## OFF-WORLD: pipx
+Actually, works great, can install to global space from wheels, directly from PyPi as well.
+
 [pipx see below][px] has instructions for poetry users. it downloads from PyPi registry as envrionment-isolated executables.
 
 Not sure from documentation if I'm getting binaries or not, lets test it out. **NOPE its just the source code along with dependent libraries**
 
-* possible dev flow: `poetry (wheel) -> pypi -> pix (<- executable name + script and libraries to ~/.local)`
+* possible dev flow: `poetry (wheel) -> pypi -> pipx (<- executable name + script and libraries to ~/.local)`
 * con: managing tools with pipx alongside brew
 * pro: pipx is simple
 * pro: many homebrew formula are essentially same deployment of python env + script file
@@ -96,7 +147,12 @@ So this can integrate with my poetry workflow, I develop with poetry:
   
 
 ```bash
-python -m nuitka --follow-imports --onefile program.py
+# install nuitka into the 'global' python scope ie not in a poetry env
+python3 -m pip install --upgrade nuitka
+
+python3 -m nuitka --help
+
+python3 -m nuitka --follow-imports --onefile program.py
 
 # or use normal build process with pyproject and build backend defined
 ```

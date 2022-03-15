@@ -92,6 +92,19 @@ poetry run python src/toobigdatadoc/too.py --help
 #   -h, --help      show this help message and exit
 ```
 
+Fixed pyproject.toml:
+```toml
+[tool.poetry.scripts]
+-too = 'toobigdatadoc.__main__:main'
++too = 'src.toobigdatadoc.__main__:main'
+```
+
+Now this works:
+```bash
+poetry run too --help
+    # usage: too [-h] {big,data,doc}
+```
+
 ## BLUSH-RESPONSE: PARSE ARGS
 ```python
 try:
