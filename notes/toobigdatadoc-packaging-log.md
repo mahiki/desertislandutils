@@ -1,4 +1,4 @@
-## desertislandutils.toobigdatadoc package executable
+# desertislandutils.toobigdatadoc package executable
 OK poetry now is time to shine.
 
 >I am developing python packages with poetry in isolated environment, and distributing executables to my home machine. These are utility programs I use all the time, currently bash.  *There is no need to import these modules into other packages.
@@ -10,6 +10,21 @@ OK poetry now is time to shine.
     * single file executable, copied to ~/bin or homebrew (preferred if fast)
 4. merge to main, initiate CI/CD build on github actions
 5. homebrew to install || script to download to ~/bin
+
+- [desertislandutils.toobigdatadoc package executable](#desertislandutilstoobigdatadoc-package-executable)
+    - [IOYCSWISWYE: TOPLINES](#ioycswiswye-toplines)
+    - [INCEP-DATE: reconsidering shebang](#incep-date-reconsidering-shebang)
+    - [INCEP-DATE](#incep-date)
+        - [**CHEW: how to install executable from a .whl binary?**](#chew-how-to-install-executable-from-a-whl-binary)
+        - [pipx install wheel to global namespace](#pipx-install-wheel-to-global-namespace)
+    - [OFF-WORLD: pipx](#off-world-pipx)
+    - [OFF-WORLD: pyinstall](#off-world-pyinstall)
+    - [OFF-WORLD: **nuitka**](#off-world-nuitka)
+    - [EMPATHY](#empathy)
+
+## IOYCSWISWYE: TOPLINES
+* no need for `nuitka` binary executables right now, poetry -> homebrew good
+* ready to continue migrating the rest of my bash scripts
 
 ## INCEP-DATE: reconsidering shebang
 * like bash scripts, python single file scripts run on a local interpreter
@@ -32,7 +47,7 @@ l dist/
 -rw-r--r-- 1 2.8K Mar 11 20:08 desertislandutils-0.1.0-py3-none-any.whl
 
 ```
-### **Q: how to install executable from a whl binary?**
+### **CHEW: how to install executable from a .whl binary?**
 A: with pip
 
 NOTE: pyproject needs following to get right module name:
