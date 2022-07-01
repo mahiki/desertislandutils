@@ -3,7 +3,7 @@
 I like to keep source code and notes as text files, with associated documents, data, and images stored separately on a parallel file structure. The main benefits are browsing through directories and scanning the notes contents visually, and looking through filenames without a lot of clutter.
 
 Usage:
-          
+
 too big|data|doc
 """
 # TODO: [--verbose, -v] version print 
