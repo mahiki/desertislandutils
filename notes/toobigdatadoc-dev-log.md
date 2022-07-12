@@ -5,7 +5,7 @@
     * NO: parallel directory path to file form `tooroot`
 
 ## TODO
-TODO: unit test package
+TODO: unit test package. make a trash directory, test `too -h`, `too 42 -h poo`, `too big`. destroy.
 
 ## IOYCSWISWYE
 * This is working 100% now
@@ -29,7 +29,7 @@ TODO: unit test package
     - [BLUSH-RESPONSE: too topdir](#blush-response-too-topdir)
     - [VOIGHT-KAMPFF: PASS regular folder](#voight-kampff-pass-regular-folder)
     - [VOIGHT-KAMPFF: PASS git repo folders](#voight-kampff-pass-git-repo-folders)
-    - [CHEW](#chew)
+    - [EMPATHY](#empathy)
 
 ## INCEP-DATE
 ```bash
@@ -92,6 +92,19 @@ poetry run python src/toobigdatadoc/too.py --help
 #   -h, --help      show this help message and exit
 ```
 
+Fixed pyproject.toml:
+```toml
+[tool.poetry.scripts]
+-too = 'toobigdatadoc.__main__:main'
++too = 'src.toobigdatadoc.__main__:main'
+```
+
+Now this works:
+```bash
+poetry run too --help
+    # usage: too [-h] {big,data,doc}
+```
+
 ## BLUSH-RESPONSE: PARSE ARGS
 ```python
 try:
@@ -120,8 +133,9 @@ Here in bash:
 # toodoc
 mkdir $HOME/toodoc/iterm-colors
 ln -s ../../../toodoc/iterm-colors doc
+```
 
-```py
+```python
 import git
 
 # is it a git repo?
@@ -304,7 +318,7 @@ done | sort
 
 
 ----------
-## CHEW
+## EMPATHY
 [1]: https://github.com/santiagobasulto/hyper-inspector
 
 [python docs: packaging](https://packaging.python.org/en/latest/tutorials/packaging-projects/)
