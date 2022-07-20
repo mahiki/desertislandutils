@@ -1,14 +1,15 @@
-"""Create a symlinked folder in the current directory pointing to 'too' project root directory.
+"""A command-line utility to create a symlinked folder in the current directory, pointing to the 'too' project root directory.
 
-I like to keep source code and notes as text files, with associated documents, data, and images stored separately on a parallel file structure. The main benefits are browsing through directories and scanning the notes contents visually, and looking through filenames without a lot of clutter.
+For the purpose of keeping source code and notes as text files, with associated documents, data, and images stored separately on a parallel file structure. The main benefits are browsing through directories and scanning the notes contents visually, and looking through filenames without a lot of clutter.
 
 Usage:
 
 too big|data|doc
 """
 # TODO: [--verbose, -v] version print 
-#   folder created: ../../../../../toodoc/datasci/biq/biq-206/bigtest
-#   symlink:        doc -> ../../../../../toodoc/datasci/biq/biq-206/bigtest
+#   folder created: $HOME/toodoc/datasci/biq/biq-206/bigtest
+#   symlink:        doc -> $HOME/toodoc/datasci/biq/biq-206/bigtest
+# NOTE: git repos can be moved anywhere, because their tbdd folder uniquely definied by name
 
 from argparse import ArgumentParser
 from git import Repo, exc
@@ -21,16 +22,15 @@ def call_the_parser():
         )
 
     parser.add_argument(
-        'arg1'
+        'toodir'
         , choices = ['big', 'data', 'doc']
         , help = "large files to exclude from backup, smallish datasets, binary files like pdf"
         )
 
     args = parser.parse_args()
 
-    return args.arg1
+    return args.toodir
 
-# TODO: combine is_git_repo && repo_root
 def is_git_repo(path):
     try:
         _ = Repo(path, search_parent_directories=True)
@@ -45,18 +45,14 @@ def repo_root(repo_path):
     except exc.InvalidGitRepositoryError:
         return None
 
-def top_dir_rel_path(tbdd):
+def top_dir_path(tbdd):
     switch = {
         'big': 'toobig'
         , 'data': 'toodata'
         , 'doc': 'toodoc'
         }
     topname = switch.get(tbdd, "ERROR")
-    relative_path_home = str(Path.cwd().relative_to(Path.home()))
-    levels_home = len(relative_path_home.split('/'))
-    dots_home = '../' * levels_home
-
-    return Path(dots_home) / topname
+    return Path.home() / topname
 
 def make_topdir_and_link(new_path):
     try:
@@ -68,21 +64,21 @@ def make_topdir_and_link(new_path):
     except FileExistsError:
         print("Symlink already exists")
 
-def too_rel_path(any_path):
+def too_path(any_path):
     if is_git_repo(any_path):
         repo_root_path = repo_root(any_path)
         path_from_root = any_path.relative_to(repo_root_path)
-        return top_dir_rel_path(TOPDIR_NAME) / repo_root_path.name / path_from_root
+        return top_dir_path(TOPDIR_NAME) / repo_root_path.name / path_from_root
     else:
         path_from_home = any_path.relative_to(Path.home())
-        return top_dir_rel_path(TOPDIR_NAME) / path_from_home
+        return top_dir_path(TOPDIR_NAME) / path_from_home
 
 
 def main():
     global TOPDIR_NAME
     TOPDIR_NAME = call_the_parser()
 
-    make_topdir_and_link(too_rel_path(Path.cwd()))
+    make_topdir_and_link(too_path(Path.cwd()))
 
 if __name__ == "__main__":
     main()
