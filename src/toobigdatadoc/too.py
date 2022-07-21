@@ -1,4 +1,4 @@
-"""A command-line utility to create a symlinked folder in the current directory, pointing to the 'too' project root directory.
+"""A command line utility to create a symlinked folder in the current directory, pointing to the 'too' project root directory.
 
 For the purpose of keeping source code and notes as text files, with associated documents, data, and images stored separately on a parallel file structure. The main benefits are browsing through directories and scanning the notes contents visually, and looking through filenames without a lot of clutter.
 
@@ -15,7 +15,7 @@ from argparse import ArgumentParser
 from git import Repo, exc
 from pathlib import Path
 
-def call_the_parser():
+def call_the_parser(args = None):
     parser = ArgumentParser(
             prog = "too"
             , description = "Create symlinked parallel folders to contain data/binary files outside of\n git repo or away from source/text files."
@@ -27,7 +27,7 @@ def call_the_parser():
         , help = "large files to exclude from backup, smallish datasets, binary files like pdf"
         )
 
-    args = parser.parse_args()
+    args = parser.parse_args(args)
 
     return args.toodir
 
@@ -74,11 +74,17 @@ def too_path(any_path):
         return top_dir_path(TOPDIR_NAME) / path_from_home
 
 
-def main():
+def main(toodir = None):
+    print("from main call, __name__ is: ", __name__)
+    print("main arg toodir: ", toodir)
     global TOPDIR_NAME
-    TOPDIR_NAME = call_the_parser()
+
+    toodir = call_the_parser(toodir)
+    print("parsered toodir: ", toodir)
+    TOPDIR_NAME = toodir
 
     make_topdir_and_link(too_path(Path.cwd()))
 
 if __name__ == "__main__":
+    print("from if __name__ call, __name__ is: ", __name__)
     main()
