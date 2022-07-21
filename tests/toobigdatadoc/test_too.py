@@ -25,7 +25,7 @@ def test_bad_input(capsys):
             too.main(bad_input)
     assert pytest_wrapped_exception.type == SystemExit
     captured = capsys.readouterr()
-    assert expected_out in captured.out
+    assert expected_out in captured.err
 
 
 
