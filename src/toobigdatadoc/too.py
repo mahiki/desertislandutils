@@ -2,6 +2,8 @@
 
 For the purpose of keeping source code and notes as text files, with associated documents, data, and images stored separately on a parallel file structure. The main benefits are browsing through directories and scanning the notes contents visually, and looking through filenames without a lot of clutter.
 
+NOTE: git repos can be moved anywhere, because their path is uniquely definied by root name.
+
 Usage:
 
 too big|data|doc
@@ -9,27 +11,25 @@ too big|data|doc
 # TODO: [--verbose, -v] version print 
 #   folder created: $HOME/toodoc/datasci/biq/biq-206/bigtest
 #   symlink:        doc -> $HOME/toodoc/datasci/biq/biq-206/bigtest
-# NOTE: git repos can be moved anywhere, because their tbdd folder uniquely definied by name
 
 from argparse import ArgumentParser
 from git import Repo, exc
 from pathlib import Path
 
-def call_the_parser(args = None):
+def cli_parser(args = None):
     parser = ArgumentParser(
             prog = "too"
             , description = "Create symlinked parallel folders to contain data/binary files outside of\n git repo or away from source/text files."
         )
 
     parser.add_argument(
-        'toodir'
+        'too_dir'
         , choices = ['big', 'data', 'doc']
         , help = "large files to exclude from backup, smallish datasets, binary files like pdf"
         )
 
     args = parser.parse_args(args)
-
-    return args.toodir
+    return args.too_dir
 
 def is_git_repo(path):
     try:
@@ -74,17 +74,13 @@ def too_path(any_path):
         return top_dir_path(TOPDIR_NAME) / path_from_home
 
 
-def main(toodir = None):
-    print("from main call, __name__ is: ", __name__)
-    print("main arg toodir: ", toodir)
+def main(too_dir = None):
     global TOPDIR_NAME
 
-    toodir = call_the_parser(toodir)
-    print("parsered toodir: ", toodir)
-    TOPDIR_NAME = toodir
+    too_dir = cli_parser(too_dir)
+    TOPDIR_NAME = too_dir
 
     make_topdir_and_link(too_path(Path.cwd()))
 
 if __name__ == "__main__":
-    print("from if __name__ call, __name__ is: ", __name__)
     main()
