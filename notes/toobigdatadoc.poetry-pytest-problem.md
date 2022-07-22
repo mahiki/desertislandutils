@@ -25,6 +25,8 @@ Our implementation must handle both entrypoints:
 1. `main()` no args + command line args
 2. `main(` with function arguments from pytest
 
+**see `python-handy.md`, clear picture how args needs to be wrapped in a list, but not in `parse_args()`**
+
 ## THIS BLOG SOLVES THE PROBLEM
 Jonathan Bowman
 https://dev.to/bowmanjd/build-and-test-a-command-line-interface-with-poetry-python-s-argparse-and-pytest-4gab
