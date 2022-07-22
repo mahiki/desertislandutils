@@ -1,6 +1,8 @@
 # Poetry Tests with Pytest
 * `tmp_path` is an imported fixture
-
+* note the args handling of CLI calls vs. test function calls `[args]` with `argparse`
+* `from desertislandutils.src.toobigdatadoc import too` brings module object into scope
+  
 ```py
 # repo/python-dev/pytest/tests/test_unit.py
 

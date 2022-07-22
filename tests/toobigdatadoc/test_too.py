@@ -2,6 +2,7 @@
 
 import pytest
 import os
+import git
 from pathlib import Path
 from desertislandutils.src.toobigdatadoc import too
 
@@ -30,9 +31,9 @@ def test_bad_input(capsys):
 
 def test_non_repo(tmp_path, monkeypatch):
     tmp_dir = tmp_path
-    test_path_from_home = 'non_repo_dir/subdir_1/subdir_2'
+    test_path_from_home = "non_repo_dir/subdir_1/subdir_2"
 
-    monkeypatch.setenv("HOME", str(tmp_dir / 'HOME'))
+    monkeypatch.setenv("HOME", str(tmp_dir / "HOME"))
     test_home = Path.home()
     
     test_full_path = test_home / test_path_from_home
@@ -42,7 +43,7 @@ def test_non_repo(tmp_path, monkeypatch):
     for i in iter(too.POSITIONAL_ARGS):
         too.main(i)
 
-    # expected directory names created
+    # expected names created
     assert sorted(os.listdir(test_full_path)) == sorted(list(too.POSITIONAL_ARGS))
 
     # test link, dir existence
@@ -54,11 +55,39 @@ def test_non_repo(tmp_path, monkeypatch):
     for i in test_full_path.iterdir():
         too_path = i.readlink()
         too_stem = too_path.relative_to(test_home)
-        too_stem_anchor = str(too_stem).split('/')[0]
+        too_stem_components = str(too_stem).split('/')
+        too_stem_anchor = too_stem_components[0]
         assert too_stem_anchor in list(too.POSITIONAL_ARGS.values())
 
 def test_git_repo(tmp_path, monkeypatch):
-    pass
-    # mkdirs
-    # git init
-    # test symlink root has repo name under toobig/data/doc
+    tmp_dir = tmp_path
+    git_repo_name = "git_repo_dir"
+    test_path_from_home = git_repo_name + "/subdir_x/subdir_y"
+
+    monkeypatch.setenv("HOME", str(tmp_dir / "HOME"))
+    test_home = Path.home()
+    
+    test_full_path = test_home / test_path_from_home
+    Path.mkdir(test_full_path, parents=True)
+    git.Repo.init(test_home / git_repo_name)
+    os.chdir(test_full_path)
+    
+    for i in iter(too.POSITIONAL_ARGS):
+        too.main(i)
+
+    # expected names created
+    assert sorted(os.listdir(test_full_path)) == sorted(list(too.POSITIONAL_ARGS))
+
+    # test link, dir existence
+    for i in test_full_path.iterdir():
+        assert i.is_symlink()
+        assert i.is_dir()
+
+    # read links, verify expected path from HOME
+    for i in test_full_path.iterdir():
+        too_path = i.readlink()
+        too_stem = too_path.relative_to(test_home)
+        too_stem_components = str(too_stem).split('/')
+        too_stem_anchor = too_stem_components[0]
+        assert too_stem_anchor in list(too.POSITIONAL_ARGS.values())
+        assert too_stem_components[1] == git_repo_name
