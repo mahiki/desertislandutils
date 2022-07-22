@@ -4,8 +4,8 @@
     * YES: place at `tooroot` top level
     * NO: parallel directory path to file form `tooroot`
 
-## TODO
-TODO: unit test package. make a trash directory, test `too -h`, `too 42 -h poo`, `too big`. destroy.
+## DONE
+DONE: unit test package. make a trash directory, test `too -h`, `too 42 -h poo`, `too big`. destroy.
 
 ## IOYCSWISWYE
 * This is working 100% now
@@ -17,7 +17,7 @@ TODO: unit test package. make a trash directory, test `too -h`, `too 42 -h poo`,
     * yes, but make test package
 
 - [desertislandutils.toobigdatadoc](#desertislandutilstoobigdatadoc)
-    - [TODO](#todo)
+    - [DONE](#done)
     - [IOYCSWISWYE](#ioycswiswye)
     - [INCEP-DATE](#incep-date)
     - [OFF-WORLD: STRUCTURE](#off-world-structure)
@@ -57,6 +57,8 @@ cd desertislandutils
 
 ## OFF-WORLD: STRUCTURE
 Following this poetry project [hyper-inspector example poetry package][1] for python package conventions.
+
+See **hyper-inspector** example for CLI arguments and keyboard interrupt for persistent running CLI application.
 
 Will have to iterate once its clear what the package executable is exported as.
 

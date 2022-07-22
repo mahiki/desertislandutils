@@ -1,7 +1,7 @@
 # Poetry, Pytest, and Environment
 * I want to toobigdatadoc test to create folders in a test enviroment
 * Mock the environment to change `Path.home()`
-* Tests will create too/big/data folders in a test folder location
+* Tests will create too/big/data folders in a system temp folder location
 
 This describes setting enviroment variables:
 https://adamj.eu/tech/2020/10/13/how-to-mock-environment-variables-with-pytest/
@@ -18,6 +18,8 @@ poetry run pytest -q
 # quiet output
 
 poetry run pytest  -v
+
+poetry run pytest --captures=no
 ```
 
 # test_pytest
@@ -54,7 +56,7 @@ def test_needsfiles(tmp_path):
     assert 0
 
 # at shell ~/.../desertislandutils
-$> poetry run pytest -v
+$> poetry run pytest -v --captures=no
 # ----------------------------------------------- Captured stdout call -----------------------------------------------
 # /private/var/folders/sq/4qxp1j7x2jv5c18qty294kfm0000gn/T/pytest-of-segovia/pytest-3/test_needsfiles0
 ```
