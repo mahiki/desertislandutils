@@ -16,18 +16,24 @@ from argparse import ArgumentParser
 from git import Repo, exc
 from pathlib import Path
 
-def cli_parser(args = None):
-    parser = ArgumentParser(
-            prog = "too"
-            , description = "Create symlinked parallel folders to contain data/binary files outside of\n git repo or away from source/text files."
-        )
+POSITIONAL_ARGS = {
+    'big': 'toobig'
+    , 'data': 'toodata'
+    , 'doc': 'toodoc'
+    }
 
+def cli_parser(args = None):
+    if args: args = [args]       # must do for test calls
+    arg_choices = list(POSITIONAL_ARGS)
+    parser = ArgumentParser(
+        prog = "too"
+        , description = "Create symlinked parallel folders under HOME/{toobig|toodata|toodoc}, to contain data/binary files outside of\n git repo or away from source/text files."
+        )
     parser.add_argument(
         'too_dir'
-        , choices = ['big', 'data', 'doc']
+        , choices = arg_choices
         , help = "large files to exclude from backup, smallish datasets, binary files like pdf"
         )
-
     args = parser.parse_args(args)
     return args.too_dir
 
@@ -46,12 +52,7 @@ def repo_root(repo_path):
         return None
 
 def top_dir_path(tbdd):
-    switch = {
-        'big': 'toobig'
-        , 'data': 'toodata'
-        , 'doc': 'toodoc'
-        }
-    topname = switch.get(tbdd, "ERROR")
+    topname = POSITIONAL_ARGS.get(tbdd, "ERROR")
     return Path.home() / topname
 
 def make_topdir_and_link(new_path):
