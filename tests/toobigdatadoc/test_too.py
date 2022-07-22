@@ -2,10 +2,11 @@
 
 import pytest
 import os
+from pathlib import Path
 from desertislandutils.src.toobigdatadoc import too
 
-def test_main_help(capsys):
-    help_args = [["-h"], ["--help"]]
+def test_help(capsys):
+    help_args = ["-h", "--help"]
     help_msg_part = "optional arguments:"
 
     for i in help_args:
@@ -19,7 +20,7 @@ def test_main_help(capsys):
         assert help_msg_part in captured.out
 
 def test_bad_input(capsys):
-    bad_input = ["42 -h poo"]
+    bad_input = "42 -h poo"
     expected_out = "too: error:"
     with pytest.raises(SystemExit) as pytest_wrapped_exception:
             too.main(bad_input)
@@ -27,17 +28,37 @@ def test_bad_input(capsys):
     captured = capsys.readouterr()
     assert expected_out in captured.err
 
+def test_non_repo(tmp_path, monkeypatch):
+    tmp_dir = tmp_path
+    test_path_from_home = 'non_repo_dir/subdir_1/subdir_2'
 
+    monkeypatch.setenv("HOME", str(tmp_dir / 'HOME'))
+    test_home = Path.home()
+    
+    test_full_path = test_home / test_path_from_home
+    Path.mkdir(test_full_path, parents=True)
+    os.chdir(test_full_path)
+    
+    for i in iter(too.POSITIONAL_ARGS):
+        too.main(i)
 
-# def test_unit(tmp_path):
-#     tmp_dir = tmp_path
-#     system_temp = os.environ['TMPDIR']
+    # expected directory names created
+    assert sorted(os.listdir(test_full_path)) == sorted(list(too.POSITIONAL_ARGS))
 
-#     print("\n\tsystem tmp directory: {}".format(system_temp))
-#     print("\n\ttmp_path for this test run: {}".format(tmp_dir))
-#     print("\n\tcwd: {}".format(os.getcwd()))
-#     print("\n\tchanging to TMPDIR/pytest_dir")
-#     os.chdir(tmp_dir)
-#     print("\n\tcwd: {}".format(os.getcwd()))
+    # test link, dir existence
+    for i in test_full_path.iterdir():
+        assert i.is_symlink()
+        assert i.is_dir()
 
-#     assert len(os.listdir(tmp_dir)) == 0
+    # read links, verify expected path from HOME
+    for i in test_full_path.iterdir():
+        too_path = i.readlink()
+        too_stem = too_path.relative_to(test_home)
+        too_stem_anchor = str(too_stem).split('/')[0]
+        assert too_stem_anchor in list(too.POSITIONAL_ARGS.values())
+
+def test_git_repo(tmp_path, monkeypatch):
+    pass
+    # mkdirs
+    # git init
+    # test symlink root has repo name under toobig/data/doc
