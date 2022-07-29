@@ -9,7 +9,7 @@ name: Poetry Test desertislandutils
 on:
   push:
     branches:
-      - 'release[/-_:]**'
+      - 'release/**'
     paths-ignore:
       - '**.md'
 
