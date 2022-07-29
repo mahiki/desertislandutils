@@ -18,10 +18,10 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Setup Python, add poetry to path poetry
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.9'
+      - name: Add poetry to path poetry
         run: pipx poetry
       - name: Install poetry project dependencies
         run: poetry install
