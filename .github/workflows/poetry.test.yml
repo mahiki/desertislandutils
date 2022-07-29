@@ -21,8 +21,8 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-      - name: Add poetry to path poetry
-        run: pipx poetry
+      # - name: Add poetry to path poetry
+      #   run: pipx poetry
       - name: Install poetry project dependencies
         run: poetry install
       - name: Pytest project
