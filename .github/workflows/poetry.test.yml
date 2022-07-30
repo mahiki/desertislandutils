@@ -16,15 +16,11 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Display Python version
-        run: python -c "import sys; print(sys.version)"
-      - run: echo "python version:" && python --version
-      - run: echo "$(which python)"
+      - run: python --version
 
       - name: Install poetry with pipx and python version
-        run: pipx install poetry --python $(which python)
+        run: pipx install --python $(which python) poetry
       - run: poetry install
       - run: poetry run pytest
 
-      - name: Job status variables
-        run: echo "${{ job.name }} ${{ github.job }} ${{ job.status }}."
+      - run: echo "${{ github.job }} ${{ job.status }}."

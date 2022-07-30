@@ -1,4 +1,16 @@
 # Build on Github
+
+## TODO: UNICORN-DREAM: BUILD & RELEASE
+DONE: GHA `poetry run pytest`
+
+TODO: Merge release/vX.X.X to main
+TODO: Tag
+TODO: Create release artifact
+TODO: Call the homebrew-tap to bump formula, or just a cron to gather the update.
+
+TODO: how to bump version numbers automatically
+
+----------
 TODO: automate CI build task on push to dev, merge to main.
 
 Github actions has pypi publisher and build templates, but dont use poetry.
