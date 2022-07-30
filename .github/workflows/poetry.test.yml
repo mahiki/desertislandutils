@@ -23,7 +23,7 @@ jobs:
       - run: echo "$(which python)"
 
       - name: Install poetry with pipx and python version
-        run: pipx install poetry --python ${{ python-version }}
+        run: pipx install poetry --python $(which python)
       - run: poetry install
       - run: poetry run pytest
 
