@@ -1,10 +1,4 @@
-#   This is my working draft of GHA desertilsandutils
 name: Poetry Test desertislandutils
-# ROUGH DRAFT:
-    # with push on branch 'release*'
-    # install poetry
-    # 'poetry install' to initialize dependencies from pyproject.toml
-    # 'poetry run pytest'
 
 on:
   push:
@@ -21,10 +15,17 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-      - name: Install poetry
-        run: pipx install poetry
-      - name: Install poetry project dependencies
-        run: poetry install
-      - name: Pytest project
-        run: poetry run pytest --capture=no -v
-      - run: echo "${{ job.name }} ${{ github.job }} ${{ job.status }}."
+          cache: 'poetry'
+
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+      - run: echo "python version:" && python --version
+      - run: echo "$(which python)"
+
+      - name: Install poetry with pipx and python version
+        run: pipx install poetry --python ${{ python-version }}
+      - run: poetry install
+      - run: poetry run pytest
+
+      - name: Job status variables
+        run: echo "${{ job.name }} ${{ github.job }} ${{ job.status }}."

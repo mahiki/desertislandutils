@@ -8,7 +8,7 @@ from desertislandutils.src.toobigdatadoc import too
 
 def test_help(capsys):
     help_args = ["-h", "--help"]
-    help_msg_part = "optional arguments:"
+    help_msg_part = "usage: too"
 
     for i in help_args:
         with pytest.raises(SystemExit) as pytest_wrapped_exception:

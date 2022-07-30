@@ -20,6 +20,9 @@ That covers the build. What about triggering homebrew repo action with new relea
 ## TODO: semantic versioning
 [see link of semver][semantic release] for automated gh releases, using poetry.
 
+## TODO: bump version numbers
+I guess a git hook that runs `./bump_version.sh` when pulling a release branch?
+
 ----------
 ## EMPATHY
 [example: gha poetry]: https://github.com/marketplace/actions/python-poetry-action
