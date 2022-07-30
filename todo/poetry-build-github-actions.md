@@ -12,6 +12,17 @@ TODO: Call the homebrew-tap to bump formula, or just a cron to gather the update
 
 TODO: how to bump version numbers automatically
 
+
+### Auto merge after tests
+
+
+example marketplace actions that might help:
+
+https://github.com/marketplace/actions/enable-pull-request-automerge
+https://github.com/OSS-Docs-Tools/code-owner-self-merge
+
+
+
 ----------
 TODO: automate CI build task on push to dev, merge to main.
 
