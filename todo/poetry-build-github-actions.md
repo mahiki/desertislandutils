@@ -5,7 +5,9 @@ DONE: GHA `poetry run pytest`
 
 TODO: Merge release/vX.X.X to main
 TODO: Tag
-TODO: Create release artifact
+TODO: Build release artifact `poetry build --format sdist`
+TODO: Create release from tagged version and built thing
+TODO: Get SHA from github archive URL
 TODO: Call the homebrew-tap to bump formula, or just a cron to gather the update.
 
 TODO: how to bump version numbers automatically

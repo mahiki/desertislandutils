@@ -3,10 +3,10 @@ I made a feature change in toobigdatadoc (absolute path not relative). Here is w
 
 ## STEPS
 1. git flow commits to dev
-2. NODO: test functionality `too_py-test.sh`
+2. DONE: test functionality `too_py-test.sh`
     * `poetry run too --help` runs in the specified environment
     * `pytest` in the root directory all `test_*.py` files
-3. TESTS: `poetry run pytest -v --captures=no
+3. DONE: `poetry run pytest -v --captures=no
 4. finalize dev commits, pull release branch 'release/0.2.0
     * final TESTS and debug
     * bump version
