@@ -1,4 +1,4 @@
-name: Poetry Test desertislandutils
+name: Test-desertislandutils
 
 on:
   push:
@@ -23,4 +23,4 @@ jobs:
       - run: poetry install
       - run: poetry run pytest
 
-      - run: echo "${{ github.job }} ${{ job.status }}."
+      - run: echo "{{ github.workflow }} ${{ github.job }} ${{ job.status }}."
