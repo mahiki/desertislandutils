@@ -1,0 +1,20 @@
+name: Merge to Main After Tests
+
+on:
+  workflow_run:
+    workflows: [Test desertislandutils]
+    types: [completed]
+    branches:
+      - 'release/**'
+
+jobs:
+  on-success:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - run: echo 'The triggering workflow passed'
+  on-failure:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - run: echo 'STOP THE PRESSES NO MERGE. MUST SEND A MESSAGE'
