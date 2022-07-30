@@ -26,5 +26,5 @@ jobs:
       - name: Install poetry project dependencies
         run: poetry install
       - name: Pytest project
-        run: poetry run pytest
-      - run: echo "${{ job.name }} ${{ job.status }}."
+        run: poetry run pytest --capture=no -v
+      - run: echo "${{ job.name }} ${{ github.job }} ${{ job.status }}."
