@@ -14,6 +14,22 @@ TODO: how to bump version numbers automatically
 
 
 ### Auto merge after tests
+Q: how to get the name of release branch
+
+    github.event.workflow_run...
+    github.ref_name		            # The branch or tag name that triggered the workflow run.
+
+
+Actually, this is much simpler. Just trigger on successful workflow:
+
+1. checkout full repo
+```sh
+git checkout main
+git merge --no-ff ${{github.ref_name}}
+git tag -a v1.2
+```
+
+https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#running-a-workflow-based-on-the-conclusion-of-another-workflow
 
 
 example marketplace actions that might help:
@@ -24,6 +40,7 @@ https://github.com/OSS-Docs-Tools/code-owner-self-merge
 
 
 ----------
+## ORIGINAL VIEW OF TASK
 TODO: automate CI build task on push to dev, merge to main.
 
 Github actions has pypi publisher and build templates, but dont use poetry.
