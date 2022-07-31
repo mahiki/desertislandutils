@@ -31,8 +31,27 @@ git tag -a v1.2
 
 https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#running-a-workflow-based-on-the-conclusion-of-another-workflow
 
+#### Push a commit using the built-in token
+[from github actions/checkout@v3](https://github.com/marketplace/actions/checkout#Push-a-commit-using-the-built-in-token)
 
-example marketplace actions that might help:
+```yaml
+
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+w      - uses: actions/checkout@v3
+      - run: |
+          date > generated.txt
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "generated"
+          git push
+```
+
+#### example marketplace actions that might help:
 
 https://github.com/marketplace/actions/enable-pull-request-automerge
 https://github.com/OSS-Docs-Tools/code-owner-self-merge
@@ -40,7 +59,6 @@ https://github.com/OSS-Docs-Tools/code-owner-self-merge
 
 
 ----------
-## ORIGINAL VIEW OF TASK
 TODO: automate CI build task on push to dev, merge to main.
 
 Github actions has pypi publisher and build templates, but dont use poetry.
@@ -61,9 +79,6 @@ That covers the build. What about triggering homebrew repo action with new relea
 
 ## TODO: semantic versioning
 [see link of semver][semantic release] for automated gh releases, using poetry.
-
-## TODO: bump version numbers
-I guess a git hook that runs `./bump_version.sh` when pulling a release branch?
 
 ----------
 ## EMPATHY
