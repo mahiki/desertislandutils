@@ -23,4 +23,7 @@ jobs:
       - run: poetry install
       - run: poetry run pytest
 
-      - run: echo "${{ github.workflow }} ${{ github.job }} ${{ job.status }}."
+      - run: |
+          echo "workflow: ${{ github.workflow }}"
+          echo "job_id:  ${{ github.job }}"
+          echo "job status:  ${{ job.status }}"
