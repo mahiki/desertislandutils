@@ -7,13 +7,22 @@ on:
     paths-ignore:
       - '**.md'
 
-  # NOTE: these only work on main
+  # NOTE: workflow_dispatch only work on main
   workflow_dispatch:
     inputs:
       note:
         description: 'Describe why you are doing this'
         required: false
-        default: 'no message' 
+        default: 'no message'
+      manual_workflow_conclusion:
+        description: 'Insert success/failure for downstream'
+        required: false
+        default: ''
+        type: choice
+        options:
+        - ''
+        - failure
+        - success
 
 jobs:
   poetry-run-tests:
