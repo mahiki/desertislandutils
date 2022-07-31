@@ -30,7 +30,7 @@ jobs:
       - run: poetry install
       - run: poetry run pytest
 
-      - name: Print some workflow contexts
+      - name: Print some workflow contexts now
         run: |
           echo "workflow: ${{ github.workflow }}"
           echo "job_id:  ${{ github.job }}"
