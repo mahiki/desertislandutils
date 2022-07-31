@@ -28,6 +28,11 @@ jobs:
           git branch --list
           git log  --graph -n20 --pretty=format:'%C(bold red)%h%Creset %C(cyan)%as%Creset %C(green)%cn%Creset %x09%C(white)%s%Creset %C(yellow)%d%Creset'
           git config --list
+      - name: Show context attributes
+        uses: actions/github-script@v6
+        with:
+          script: console.log(context)
+
           
   on-success:
     runs-on: ubuntu-latest
