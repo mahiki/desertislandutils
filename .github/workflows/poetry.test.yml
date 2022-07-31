@@ -7,6 +7,7 @@ on:
     paths-ignore:
       - '**.md'
 
+  # NOTE: these only work on main
   workflow_dispatch:
     inputs:
       note:
