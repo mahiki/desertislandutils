@@ -1,0 +1,47 @@
+name: Test desertislandutils
+
+on:
+  push:
+    branches:
+      - 'release/**'
+    paths-ignore:
+      - '**.md'
+
+  # NOTE: workflow_dispatch only work on main
+  workflow_dispatch:
+    inputs:
+      note:
+        description: 'Describe why you are doing this'
+        required: false
+        default: 'no message'
+      manual_workflow_conclusion:
+        description: 'Insert success/failure for downstream'
+        required: false
+        default: ''
+        type: choice
+        options:
+        - ''
+        - failure
+        - success
+
+jobs:
+  poetry-run-tests:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - run: python --version
+
+      - name: Install poetry with pipx and python version
+        run: pipx install --python $(which python) poetry
+      - run: poetry install
+      - run: poetry run pytest
+
+      - name: Print some workflow contexts now
+        run: |
+          echo "workflow: ${{ github.workflow }}"
+          echo "job_id:  ${{ github.job }}"
+          echo "job status:  ${{ job.status }}"
