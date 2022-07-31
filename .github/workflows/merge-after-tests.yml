@@ -7,6 +7,13 @@ on:
     branches:
       - 'release/**'
 
+  workflow_dispatch:
+    inputs:
+      note:
+        description: 'Describe why you are doing this'
+        required: false
+        default: 'no message' 
+
 jobs:
   print-context:
     runs-on: ubuntu-latest
