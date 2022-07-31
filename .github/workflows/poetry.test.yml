@@ -7,6 +7,13 @@ on:
     paths-ignore:
       - '**.md'
 
+  workflow_dispatch:
+    inputs:
+      note:
+        description: 'Describe why you are doing this'
+        required: false
+        default: 'no message' 
+
 jobs:
   poetry-run-tests:
     runs-on: macos-latest
@@ -23,7 +30,7 @@ jobs:
       - run: poetry install
       - run: poetry run pytest
 
-      - name: Print some workflow contexts now
+      - name: Print some workflow contexts
         run: |
           echo "workflow: ${{ github.workflow }}"
           echo "job_id:  ${{ github.job }}"
