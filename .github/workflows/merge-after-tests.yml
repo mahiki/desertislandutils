@@ -26,19 +26,11 @@ jobs:
           echo "ls ${{ github.workspace }}"
           ls ${{ github.workspace }}
 
-      - name: Do I really have all the branches
+      - name: Are variables persistent between steps
         run: |
-          git config user.name GHA
-          git config user.email github-actions@github.com
-          git config --list
-          git branch --list
-          git checkout "${{ github.event.workflow_run.head_branch }}"
-          git log  --graph -n20 --pretty=format:'%h %as %cn %x09%s %d'
           echo "which sed is avail on ubuntu:"
           sed --version
           which sed
-      - name: Are variables persistent between steps
-        run: |
           echo "release_branch_name=  github.event.workflow_run.head_branch "
           release_tag_name=$(echo "${{ github.event.workflow_run.head_branch }}" \
             | sed --posix  's/.*release.*([0-9].[0-9].[0-9])/v\1/')
