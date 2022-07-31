@@ -31,7 +31,7 @@ jobs:
 
       - name: Do I really have all the branches
         run: |
-          git config user.name github-actions
+          git config user.name GHA
           git config user.email github-actions@github.com
           git config --list
           git branch --list
