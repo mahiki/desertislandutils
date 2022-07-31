@@ -35,6 +35,7 @@ jobs:
 
       - run: python --version
 
+      # TODO: add cacheing for poetry maybe
       - name: Install poetry with pipx and python version
         run: pipx install --python $(which python) poetry
       - run: poetry install
