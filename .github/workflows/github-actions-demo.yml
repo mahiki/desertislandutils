@@ -14,4 +14,10 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
+
+      - name: View context attributes
+        uses: actions/github-script@v6
+        with:
+          script: console.log(context)
+
       - run: echo "🍏 This job's status is ${{ job.status }}."
