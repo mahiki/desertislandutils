@@ -46,11 +46,11 @@ jobs:
       - run: |  
           git tag -a v0.2.0 -m 'release v0.2.0'
           git log  --graph -n20 --pretty=format:'%C(bold red)%h%Creset %C(cyan)%as%Creset %C(green)%cn%Creset %x09%C(white)%s%Creset %C(yellow)%d%Creset'
-          git push
+          git push --all
       - run: |
           git checkout dev
           git merge --no-ff release/0.2.0
-          git push
+          git push --all
 
       - name: Show context attributes
         uses: actions/github-script@v6
