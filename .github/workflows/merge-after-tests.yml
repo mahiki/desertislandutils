@@ -25,8 +25,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - run: |
-          echo "${{ github.workspace }}"
+      - name: Show workspace contexts
+        run: |
+          echo "workspace: ${{ github.workspace }}"
+          echo "head branch of trigger run: ${{ github.event.workflow_run.head_branch }}"
+          echo "ls ${{ github.workspace }}"
           ls ${{ github.workspace }}
 
       - name: Do I really have all the branches
@@ -41,16 +44,17 @@ jobs:
       - name: Merge the latest release
         run: |
           echo "doing: git merge --no-ff release/x.x.x"
+          echo "context of release branch: ${{ github.event.workflow_run.head_branch }}"
           git checkout main
           git merge --no-ff release/0.2.0
-      - run: |  
+      - run: |
           git tag -a v0.2.0 -m 'release v0.2.0'
           git log  --graph -n20 --pretty=format:'%C(bold red)%h%Creset %C(cyan)%as%Creset %C(green)%cn%Creset %x09%C(white)%s%Creset %C(yellow)%d%Creset'
-          git push --all
+          git push --tags
       - run: |
           git checkout dev
           git merge --no-ff release/0.2.0
-          git push --all
+          git push
 
       - name: Show context attributes
         uses: actions/github-script@v6
