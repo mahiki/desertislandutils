@@ -1,3 +1,5 @@
+# Keep adding items in an organized way when they come up in debugging
+
 name: GHA Handy Workflow Reference
 
 on:
@@ -11,7 +13,15 @@ on:
         description: 'Describe why you are doing this'
         required: false
         default: 'no message' 
-
+      manual_workflow_conclusion:
+        description: 'Insert success/failure for downstream'
+        required: false
+        default: ''
+        type: choice
+        options:
+        - ''
+        - failure
+        - success
 
 jobs:
   just-macos-things:
@@ -32,11 +42,21 @@ jobs:
           printf "github.event_name:                  %s\n"   ${{ github.event_name }}
           printf "runner.os:                          %s\n"   ${{ runner.os }}
           printf "github.ref (branch):                %s\n"   ${{ github.ref }}
+          printf "github.ref_name (branch namne):     %s\n"   ${{ github.ref_name }}
           printf "github.repository:                  %s\n"   ${{ github.repository }}
           printf "github.job (job_id):                %s\n"   ${{ github.job }}
           printf "job.status:                         %s\n"   ${{ job.status }}
 
-      - name: ubuntu shell environment situation
+
+      - name: workflow_dispatch inputs usage and context
+        run: |
+          printf "github.event.inputs.note:                       %s\n"   ${{ github.event.inputs.note }}
+          printf "github.event.inputs.manual_workflow_conclusion: %s\n"   ${{ github.event.inputs.manual_workflow_conclusion }}
+          printf "github.event.inputs (json):   %s\n"   ${{ toJSON(github.event.inputs) }}
+          printf "toJSON(github.event):         %s\n"   ${{ toJSON(github.event) }}
+
+
+      - name: ubuntu builtin tools
         run: |
           echo "sed --version"
           sed --version
@@ -44,23 +64,28 @@ jobs:
           which sed
           echo "awk --version"
           awk --version
+
+      - name: ubuntu environment and ENV
           echo "env"
           env
 
       - name: Release branch and tag extraction
         run: |
+          printf "assign a shell variable:            test_var=12345\n"
+          printf "test_var:                           %s\n" $test_var
           echo "release_name=release--/v.0.2.0"
           release_name='release--/v.0.2.0'
           printf "release_name:                     %s\n"   $release_name
-          echo "sed --posix  's/.*release.*([0-9].[0-9].[0-9])/v\1/g'"
+          echo "--regexp-extended  's/.*release.*([0-9].[0-9].[0-9])/v\1/g'"
           release_tag_name=$(echo "$release_name" \
-            | sed --posix  's/.*release.*([0-9].[0-9].[0-9])/v\1/g')
+            | --regexp-extended  's/.*release.*([0-9].[0-9].[0-9])/v\1/g')
           printf "release_tag_name:                 %s\n"   $release_tag_name
 
       - name: NO! Are shell variables persistent between steps?
         run: |
-          printf "release_name                      %s\n"   $release_name
-          printf "release_tag_name:                 %s\n"   $release_tag_name
+          printf "test_var: (SEE? nothing here)       %s\n"   $test_var
+          printf "release_name:                       %s\n"   $release_name
+          printf "release_tag_name:                   %s\n"   $release_tag_name
 
 
   official-actions-usage:
@@ -75,6 +100,8 @@ jobs:
         run: |
           printf "github.repository:                        %s\n"   ${{ github.repository }}
           printf "github.event.workflow_run.head_branch:    %s\n"   ${{ github.event.workflow_run.head_branch }}
+          printf "github.ref (branch):                      %s\n"   ${{ github.ref }}
+          printf "github.ref_name (branch namne):           %s\n"   ${{ github.ref_name }}
 
           echo   "$> ls github.workspace"
           ls ${{ github.workspace }}
