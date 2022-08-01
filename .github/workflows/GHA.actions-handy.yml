@@ -33,7 +33,7 @@ jobs:
           printf "runner.os:                          %s\n"   ${{ runner.os }}
           printf "github.ref (branch):                %s\n"   ${{ github.ref }}
           printf "github.repository:                  %s\n"   ${{ github.repository }}
-          printf "job (job_id):                       %s\n"   ${{ job }}
+          printf "github.job (job_id):                %s\n"   ${{ github.job }}
           printf "job.status:                         %s\n"   ${{ job.status }}
 
       - name: ubuntu shell environment situation
@@ -92,7 +92,10 @@ jobs:
           echo "git branch --list"
           git branch --list
           echo "git checkout github.event.workflow_run.head_branch: ${{ github.event.workflow_run.head_branch }}"
-          git checkout "${{ github.event.workflow_run.head_branch }}"
+          check_branch=$([ ! -z "${{ github.event.workflow_run.head_branch }}" ] && \
+            echo "${{ github.event.workflow_run.head_branch }}" || echo "main")
+          printf "check_branch:           %s\n" "$check_branch"
+          git checkout "$check_branch"
           echo "git log  --graph -n20 --pretty=format:'%h %as %cn %x09%s %d'"
           git log  --graph -n20 --pretty=format:'%h %as %cn %x09%s %d'
 
