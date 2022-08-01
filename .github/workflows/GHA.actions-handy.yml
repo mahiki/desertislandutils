@@ -25,7 +25,6 @@ on:
 env:
   DAY_OF_WEEK: Friday
 
-
 jobs:
   just-macos-things:
     runs-on: macos-latest
