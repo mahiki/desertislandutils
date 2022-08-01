@@ -1,6 +1,5 @@
-# Keep adding items in an organized way when they come up in debugging
-
 name: GHA Handy Workflow Reference
+# Keep adding items in an organized way when they come up in debugging
 
 on:
   push:
