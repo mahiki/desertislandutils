@@ -51,8 +51,8 @@ jobs:
         run: |
           printf "github.event.inputs.note:                       %s\n"   ${{ github.event.inputs.note }}
           printf "github.event.inputs.manual_workflow_conclusion: %s\n"   ${{ github.event.inputs.manual_workflow_conclusion }}
-          echo "github.event.inputs (json):\n"   ${{ toJSON(github.event.inputs) }}
-          echo "toJSON(github.event):\n"   ${{ toJSON(github.event) }}
+          printf "github.event.inputs (json):\n%s\n"   '${{ toJSON(github.event.inputs) }}'
+          printf "toJSON(github.event):\n%s\n"   '${{ toJSON(github.event) }}'
 
 
       - name: ubuntu builtin tools
