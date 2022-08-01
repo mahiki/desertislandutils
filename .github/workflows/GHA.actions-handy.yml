@@ -58,7 +58,7 @@ jobs:
 
       - name: Are shell variables persistent between steps?
         run: |
-          printf "release_name"                     %s\n"   $release_name
+          printf "release_name                      %s\n"   $release_name
           printf "release_tag_name:                 %s\n"   $release_tag_name
 
 
