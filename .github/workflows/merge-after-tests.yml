@@ -68,11 +68,13 @@ jobs:
           git log  --graph -n20 --pretty=format:'%h %as %cn %x09%s %d'
           echo 'running: git push origin $release_tag_name'
           # git push origin "$release_tag_name"
+          # git push origin main
       # - name: Merge back to dev - carry on development from here
       #   run: |
       #     git checkout dev
       #     git merge --no-ff main
       #     git push origin "$release_tag_name"
+      #     git push origin dev
       #     echo "you can delete your release branch now"
 
   on-failure:
