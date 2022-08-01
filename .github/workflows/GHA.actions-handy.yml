@@ -3,7 +3,7 @@ name: GHA Handy Workflow Reference
 on:
   push:
     branches:    
-      - '**'
+      - 'not_really_on_push_anymore'
 
   workflow_dispatch:
     inputs:
