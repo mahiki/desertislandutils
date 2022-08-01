@@ -31,14 +31,14 @@ jobs:
           echo "which sed is avail on ubuntu:"
           sed --version
           which sed
-          echo "release_branch_name=  github.event.workflow_run.head_branch "
-          release_tag_name=$(echo ""release/ --v.0.2.0"" \
+          echo "release_tag_name=github.event.workflow_run.head_branch"
+          release_tag_name=$(echo "release--/v.0.2.0" \
             | sed --posix  's/.*release.*([0-9].[0-9].[0-9])/v\1/')
 
       - name: Merge the latest release
         run: |
           echo "release_tag_name: $release_tag_name"
-
+          echo "this is what i would git tag -a"
   on-success:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
