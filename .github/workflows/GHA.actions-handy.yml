@@ -1,0 +1,163 @@
+name: GHA Handy Workflow Reference
+# Keep adding items in an organized way when they come up in debugging
+
+on:
+  push:
+    branches:    
+      - 'not_really_on_push_anymore'
+
+  workflow_dispatch:
+    inputs:
+      note:
+        description: 'Describe why you are doing this'
+        required: false
+        default: 'no message' 
+      manual_workflow_conclusion:
+        description: 'Insert success/failure for downstream'
+        required: false
+        default: ''
+        type: choice
+        options:
+        - ''
+        - failure
+        - success
+
+env:
+  DAY_OF_WEEK: Friday
+
+
+jobs:
+  just-macos-things:
+    runs-on: macos-latest
+    steps:
+      - name: some basic items
+        run: |
+          printf "github.event_name:                  %s\n"   '${{ github.event_name }}'
+          printf "runner.os:                          %s\n"   '${{ runner.os }}'
+          printf "github.ref (branch):                %s\n"   '${{ github.ref }}'
+          printf "github.repository:                  %s\n"   '${{ github.repository }}'
+          printf "github workspace:                   %s\n"   '${{ github.workspace }}'
+
+  ubuntu-town:
+    runs-on: ubuntu-latest
+    env:
+      job_var: Its a job scope
+    steps:
+      - name: some basic items
+        run: |
+          printf "github.event_name:                  %s\n"   '${{ github.event_name }}'
+          printf "runner.os:                          %s\n"   '${{ runner.os }}'
+          printf "github.ref (branch):                %s\n"   '${{ github.ref }}'
+          printf "github.ref_name (branch namne):     %s\n"   '${{ github.ref_name }}'
+          printf "github.repository:                  %s\n"   '${{ github.repository }}'
+          printf "github workspace:                   %s\n"   '${{ github.workspace }}'
+          printf "github.job (job_id):                %s\n"   '${{ github.job }}'
+          printf "job.status:                         %s\n"   '${{ job.status }}'
+
+      - name: environment variables and contexts example
+        run: |
+          echo "{{ env.DAY_OF_WEEK }} is evaluated ahead of the runner: ${{ env.DAY_OF_WEEK }}"
+          echo "DAY_OF_WEEK shell var is evaluated at run-time:         $DAY_OF_WEEK"
+          echo "Variable scoped to this step (Greeting):                $Greeting"
+          echo "$Greeting $DAY_OF_WEEK"
+          echo "job_var: $job_var"
+        env:
+          Greeting: Hello
+
+      - name: use GITHUB_ENV for runtime variable assignment
+        run: |
+          echo "DAYS_PLUS_11=$(date -d "$(date) + 11 days" +%b%d)" >> $GITHUB_ENV
+
+      - name: "Here is shell env variable in next step"
+        run: |
+          echo "Working variable from GITHUB_ENV: $DAYS_PLUS_11"
+
+      - name: workflow_dispatch inputs usage and context
+        run: |
+          printf "github.event.inputs.note:                       %s\n"   '${{ github.event.inputs.note }}'
+          printf "github.event.inputs.manual_workflow_conclusion: %s\n"   '${{ github.event.inputs.manual_workflow_conclusion }}'
+          printf "github.event.inputs (json):\n%s\n"   '${{ toJSON(github.event.inputs) }}'
+          printf "toJSON(github.event):\n%s\n"   '${{ toJSON(github.event) }}'
+
+
+      - name: ubuntu builtin tools
+        run: |
+          echo "sed --version"
+          sed --version
+          echo "which sed"
+          which sed
+          echo "awk --version"
+          awk --version
+
+      - name: ubuntu environment and ENV
+        run: |
+          echo "env"
+          env
+
+      - name: Release branch and tag extraction
+        run: |
+          printf "assign a shell variable:            test_var=12345\n"
+          test_var=12345
+          printf "test_var:                           %s\n" "$test_var"
+
+          echo "release_name=release--/v.0.2.0"
+          release_name='release--/v.0.2.0'
+          printf "release_name:                     %s\n"   "$release_name"
+          echo "sed --regexp-extended  's/.*release.*([0-9].[0-9].[0-9])/v\1/g'"
+
+          release_tag_name=$(echo "$release_name" \
+            | sed --regexp-extended \
+            's/.*release.*([0-9].[0-9].[0-9])/v\1/g')
+          printf "release_tag_name:                 %s\n"   "$release_tag_name"
+
+      - name: NO! Are shell variables persistent between steps?
+        run: |
+          printf "test_var: (SEE? nothing here)       %s\n"   "$test_var"
+          printf "release_name:                       %s\n"   "$release_name"
+          printf "release_tag_name:                   %s\n"   "$release_tag_name"
+
+
+  official-actions-usage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: actions/checkout@v3 - pull down repository code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: General environment and context items
+        run: |
+          printf "github.repository:                        %s\n"   '${{ github.repository }}'
+          printf "github.event.workflow_run.head_branch:    %s\n"   '${{ github.event.workflow_run.head_branch }}'
+          printf "github.ref (branch):                      %s\n"   '${{ github.ref }}'
+          printf "github.ref_name (branch namne):           %s\n"   '${{ github.ref_name }}'
+
+          echo   "$> ls github.workspace"
+          ls "${{ github.workspace }}"
+
+      - name: Configure for autobot commits
+        run: |
+          git config user.name gha-bot
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git config --list
+
+      - name: checkout@v3 repo stuff and git operations
+        run: |
+          echo "Does the config remain between steps?"
+          echo "git config --list"
+          git config --list
+          echo "git branch --list"
+          git branch --list
+          echo "git checkout github.event.workflow_run.head_branch: ${{ github.event.workflow_run.head_branch }}"
+          check_branch=$([ ! -z "${{ github.event.workflow_run.head_branch }}" ] && \
+            echo "${{ github.event.workflow_run.head_branch }}" || echo "main")
+          printf "check_branch:           %s\n" "$check_branch"
+          git checkout "$check_branch"
+          echo "git log  --graph -n20 --pretty=format:'%h %as %cn %x09%s %d'"
+          git log  --graph -n20 --pretty=format:'%h %as %cn %x09%s %d'
+
+
+      - name: actions/github-script@v6 - View context attributes
+        uses: actions/github-script@v6
+        with:
+          script: console.log(context)
