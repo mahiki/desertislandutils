@@ -66,6 +66,7 @@ jobs:
           awk --version
 
       - name: ubuntu environment and ENV
+        run: |
           echo "env"
           env
 
