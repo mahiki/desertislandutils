@@ -40,6 +40,8 @@ jobs:
 
   ubuntu-town:
     runs-on: ubuntu-latest
+    env:
+      job_var: Its a job scope
     steps:
       - name: some basic items
         run: |
@@ -58,8 +60,17 @@ jobs:
           echo "DAY_OF_WEEK shell var is evaluated at run-time:         $DAY_OF_WEEK"
           echo "Variable scoped to this step (Greeting):                $Greeting"
           echo "$Greeting $DAY_OF_WEEK"
+          echo "job_var: $job_var"
         env:
           Greeting: Hello
+
+      - name: use GITHUB_ENV for runtime variable assignment
+        run: |
+          echo "DAYS_PLUS_11=$(date -d "$(date) + 11 days" +%b%d)" >> $GITHUB_ENV
+
+      - name: "Here is shell env variable in next step"
+        run: |
+          echo "Working variable from GITHUB_ENV: $DAYS_PLUS_11"
 
       - name: workflow_dispatch inputs usage and context
         run: |
