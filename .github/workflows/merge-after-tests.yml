@@ -16,7 +16,7 @@ on:
         default: 'no message' 
 
 jobs:
-  print-vars:
+  print-vars-debugging:
     runs-on: ubuntu-latest
     steps:
       - name: Show workspace contexts
@@ -26,19 +26,6 @@ jobs:
           echo "ls ${{ github.workspace }}"
           ls ${{ github.workspace }}
 
-      - name: Are variables persistent between steps
-        run: |
-          echo "which sed is avail on ubuntu:"
-          sed --version
-          which sed
-          echo "release_tag_name=github.event.workflow_run.head_branch"
-          release_tag_name=$(echo "release--/v.0.2.0" \
-            | sed --posix  's/.*release.*([0-9].[0-9].[0-9])/v\1/')
-
-      - name: Merge the latest release
-        run: |
-          echo "release_tag_name: $release_tag_name"
-          echo "this is what i would git tag -a"
   on-success:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
@@ -55,17 +42,15 @@ jobs:
           echo "ls ${{ github.workspace }}"
           ls ${{ github.workspace }}
 
-      - name: Do I really have all the branches
+      - name: Configure for autobot merge commit
         run: |
-          git config user.name GHA
-          git config user.email github-actions@github.com
+          git config user.name gha-bot
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git config --list
           git branch --list
           git checkout "${{ github.event.workflow_run.head_branch }}"
           git log  --graph -n20 --pretty=format:'%h %as %cn %x09%s %d'
-          echo "which sed is avail on ubuntu:"
-          sed --version
-          which sed
+
       - name: Are variables persistent between steps
         run: |
           echo "release_branch_name=  github.event.workflow_run.head_branch "
@@ -96,9 +81,6 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: console.log(context)
-
-
-# TODO: pull tag name from the version of pyproject.toml, or strip from release
 
   on-failure:
     runs-on: ubuntu-latest
