@@ -51,12 +51,13 @@ jobs:
         run: |
           echo "release_name=release--/v.0.2.0"
           release_name='release--/v.0.2.0'
-          echo "sed --posix  's/.*release.*([0-9].[0-9].[0-9])/v\1/'"
+          printf "release_name:                     %s\n"   $release_name
+          echo "sed --posix  's/.*release.*([0-9].[0-9].[0-9])/v\1/g'"
           release_tag_name=$(echo "$release_name" \
-            | sed --posix  's/.*release.*([0-9].[0-9].[0-9])/v\1/')
+            | sed --posix  's/.*release.*([0-9].[0-9].[0-9])/v\1/g')
           printf "release_tag_name:                 %s\n"   $release_tag_name
 
-      - name: Are shell variables persistent between steps?
+      - name: NO! Are shell variables persistent between steps?
         run: |
           printf "release_name                      %s\n"   $release_name
           printf "release_tag_name:                 %s\n"   $release_tag_name
