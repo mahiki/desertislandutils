@@ -72,13 +72,16 @@ jobs:
       - name: Release branch and tag extraction
         run: |
           printf "assign a shell variable:            test_var=12345\n"
+          test_var=12345
           printf "test_var:                           %s\n" $test_var
+
           echo "release_name=release--/v.0.2.0"
           release_name='release--/v.0.2.0'
           printf "release_name:                     %s\n"   $release_name
-          echo "--regexp-extended  's/.*release.*([0-9].[0-9].[0-9])/v\1/g'"
+          echo "sed --regexp-extended  's/.*release.*([0-9].[0-9].[0-9])/v\1/g'"
+
           release_tag_name=$(echo "$release_name" \
-            | --regexp-extended  's/.*release.*([0-9].[0-9].[0-9])/v\1/g')
+            | sed --regexp-extended  's/.*release.*([0-9].[0-9].[0-9])/v\1/g')
           printf "release_tag_name:                 %s\n"   $release_tag_name
 
       - name: NO! Are shell variables persistent between steps?
