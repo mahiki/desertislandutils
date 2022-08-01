@@ -25,7 +25,6 @@ on:
 env:
   DAY_OF_WEEK: Friday
 
-
 jobs:
   just-macos-things:
     runs-on: macos-latest
@@ -67,10 +66,13 @@ jobs:
       - name: use GITHUB_ENV for runtime variable assignment
         run: |
           echo "DAYS_PLUS_11=$(date -d "$(date) + 11 days" +%b%d)" >> $GITHUB_ENV
+          printf "DAYS_PLUS_11:                 %s\n"   "$DAYS_PLUS_11"
+          echo 'EMPTY! Notice that the shell assignment not availabe until the next step'
 
       - name: "Here is shell env variable in next step"
         run: |
-          echo "Working variable from GITHUB_ENV: $DAYS_PLUS_11"
+          echo "Working variable from GITHUB_ENV: DAYS_PLUS_11"
+          printf "DAYS_PLUS_11:                 %s\n"   "$DAYS_PLUS_11"
 
       - name: workflow_dispatch inputs usage and context
         run: |
