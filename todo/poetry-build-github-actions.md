@@ -1,19 +1,64 @@
 # Build on Github
+Auto-merge done, now to build the packaged release.
+Next up: bump homebrew formula.
 
 ## TODO: UNICORN-DREAM: BUILD & RELEASE
-DONE: GHA `poetry run pytest`
-
-TODO: Merge release/vX.X.X to main
-TODO: Tag
 TODO: Build release artifact `poetry build --format sdist`
-TODO: Create release from tagged version and built thing
+TODO: Create release from tagged version and built thing, upload to github artifact URL
 TODO: Get SHA from github archive URL
 TODO: Call the homebrew-tap to bump formula, or just a cron to gather the update.
-
 TODO: how to bump version numbers automatically
 
+DONE: GHA `poetry run pytest`
+DONE: Merge release/vX.X.X to main
+DONE: Tag
 
-### Auto merge after tests
+### How to create release from `main tag vX.X.X`
+```sh    
+poetry run pytest
+poetry build --format sdist
+
+TODO: upload artifact
+```
+
+[Github API: Create a release](https://docs.github.com/en/rest/releases/releases#create-a-release)
+
+[Github API: Upload a release asset](https://docs.github.com/en/rest/releases/assets#upload-a-release-asset)
+
+**Probably the `actions/github-script@` utility will have good API interaction**
+
+[marketplace action-upload-release]9https://github.com/softprops/action-gh-release)
+
+#### **BINGO** github-relase GO application
+https://github.com/github-release/github-release
+
+CLI application that wraps the github API. Here is the part where a built binary is uploaded:
+
+```sh
+# upload a file, for example the OSX/AMD64 binary of my gofinance app
+$ github-release upload \
+    --user aktau \
+    --repo gofinance \
+    --tag v0.1.0 \
+    --name "gofinance-osx-amd64" \
+    --file bin/darwin/amd64/**gofinance**
+```
+
+#### additional searching
+[action/create-release seems ... oh nevermind](https://github.com/actions/create-release). Its an 8000 line index.js application. 
+
+But, it does say this for the interface, create release for every tag pushed.
+```yaml
+name: Create Release
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+```
+
+### DONE: Auto merge after tests
 Q: how to get the name of release branch
 
     github.event.workflow_run...
@@ -59,7 +104,7 @@ https://github.com/OSS-Docs-Tools/code-owner-self-merge
 
 
 ----------
-TODO: automate CI build task on push to dev, merge to main.
+DONE: automate CI build task on push to dev, merge to main.
 
 Github actions has pypi publisher and build templates, but dont use poetry.
 The CI template should install poetry, build, and publish to pypi as usual.
@@ -77,7 +122,7 @@ The CI template should install poetry, build, and publish to pypi as usual.
 
 That covers the build. What about triggering homebrew repo action with new release?
 
-## TODO: semantic versioning
+## NODO: semantic versioning
 [see link of semver][semantic release] for automated gh releases, using poetry.
 
 ----------
