@@ -19,7 +19,7 @@ poetry run pytest -q
 
 poetry run pytest  -v
 
-poetry run pytest --captures=no
+poetry run pytest --capture=no
 ```
 
 # test_pytest
@@ -56,7 +56,7 @@ def test_needsfiles(tmp_path):
     assert 0
 
 # at shell ~/.../desertislandutils
-$> poetry run pytest -v --captures=no
+$> poetry run pytest -v --capture=no
 # ----------------------------------------------- Captured stdout call -----------------------------------------------
 # /private/var/folders/sq/4qxp1j7x2jv5c18qty294kfm0000gn/T/pytest-of-segovia/pytest-3/test_needsfiles0
 ```
