@@ -30,3 +30,27 @@ optional arguments:
   -h, --help      show this help message and exit
 Kehena segovia: ~
 ```
+
+### weeknumber
+```sh
+wn --help
+
+ Usage: wn [OPTIONS] [DATE]
+
+ ISO year week number of a date as YYYY-WDD. Default weekend day is Sat.
+ Example:
+ $> wn 'Jul 22'
+ 2023-W29
+
+╭─ Arguments ───────────────────────────────────────────────────────────────────────────────────────────────────╮
+│   date      [DATE]  A text expression of date, ex: 'November 27', or 2112-07-29 [default: (dynamic)]          │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ─────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ --sunday                     Weekend is Saturday by default, this flag sets Sunday weekend day.               │
+│ --last                       Give week number of most recently completed week (overrides DATE argument).      │
+│ --verbose       --no-verbose [default: no-verbose]                                                            │
+│ --install-completion         Install completion for the current shell.                                        │
+│ --show-completion            Show completion for the current shell, to copy it or customize the installation. │
+│ --help                       Show this message and exit.                                                      │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+```
