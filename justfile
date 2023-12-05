@@ -16,9 +16,8 @@ info:
   @echo
   @echo "       Develop and commit on dev, pull feature branch."
   @echo "       Commit incrementally."
-  @echo "       Make tests, test."
-  @echo "       Push branch."
-  @echo "       version, tag, push, ...?."
+  @echo "       2. just test"
+  @echo "       3. just bump"
   @echo "       4. finalize dev commits, pull release branch release/0.2.0"
   @echo "           * final TESTS and debug"
   @echo "           * bump version"
@@ -40,6 +39,7 @@ bump:
   @echo "           {{YW}}__init__.py"
   @echo "           pyproject.toml"
   @echo "           tests/test_desertislandutils.py"
+  code __init__.py pyproject.toml tests/test_desertislandutils.py
 
 # pytest
 test *args:
