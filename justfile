@@ -40,3 +40,9 @@ bump:
   @echo "           {{YW}}__init__.py"
   @echo "           pyproject.toml"
   @echo "           tests/test_desertislandutils.py"
+
+# pytest
+test *args:
+  @echo
+  @echo "            ✙✙✙✙✙✙✙✙    TESTING    ✙✙✙✙✙✙✙✙"
+  poetry run pytest --disable-warnings --verbose {{args}}

@@ -81,3 +81,18 @@ wn 2112-07-24
 wn --last
 # 2023-W48
 ```
+
+## TEST
+* its a cli service that echoes to stdout
+* use `capsys` fixture as in `test_wn` to compare outputs to expected
+
+```sh
+just test tests/wn
+
+            ✙✙✙✙✙✙✙✙    TESTING    ✙✙✙✙✙✙✙✙
+poetry run pytest --disable-warnings --verbose tests/wn
+========================================================= test session starts ==========================================================
+rootdir: /Users/merlinr/repo/the-others/desertislandutils
+collected 1 item
+tests/wn/test_wn.py::test_wn_options PASSED                                                                                      [100%]
+```

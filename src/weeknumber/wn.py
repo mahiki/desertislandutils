@@ -5,7 +5,6 @@ Option for week number of most recently completed week.
 Example: wn --last
     2023-W48
 """
-# TODO: wont need to quote DATE if arguments are List type, and " ".join()
 
 import os
 import pendulum
