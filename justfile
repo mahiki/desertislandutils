@@ -9,6 +9,14 @@ NC := '\033[0m'
 default:
   @just --list --unsorted
 
+# poetry pass thru command
+po *args:
+  poetry run {{args}}
+
+# pass thru
+blank *args:
+  {{args}}
+
 # INFO: develop, build, deploy
 info:
   @echo
@@ -17,9 +25,10 @@ info:
   @echo "       {{LG}}1.{{NC}} Develop/commit on dev"
   @echo "       {{LG}}2.{{NC}} just test"
   @echo "       {{LG}}3.{{NC}} just bump"
-  @echo "       {{LG}}4.{{NC}} pull release branch release/X.Y.Z"
+  @echo "       {{LG}}4.{{NC}} git checkout -b release/0.3.1"
   @echo "           * final TESTS and debug"
-  @echo "           * PR 'release/0.2.0' for CI/CD tests"
+  @echo "           * git push --set-upstream origin release/0.3.1"
+  @echo "           * PR 'release/0.3.1' for CI/CD tests (click link to open PR)"
   @echo "           * merge to main"
   @echo "           * tag"
   @echo "       {{LG}}5.{{NC}} release to homebrew repo on merge to main"
