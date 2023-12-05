@@ -1,24 +1,32 @@
 [tool.poetry]
 name = "desertislandutils"
-version = "0.2.1"
+version = "0.3.0"
 description = "A collection of personal convenience utilities"
 authors = ["mahiki <mahiki@users.noreply.github.com>"]
 license = "MIT"
 packages = [
     { include = "src/toobigdatadoc" }
 ]
+readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.11"
 argparse = "^1.4.0"
 GitPython = "^3.1.27"
+typer = {extras = ["all"], version = "^0.9.0"}
+pendulum = "~2.0"
 
-[tool.poetry.dev-dependencies]
-pytest = "^7.1"
+[tool.poetry.group.dev.dependencies]
+ptpython = "^3.0.23"
+pathlib = "^1.0.1"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.2.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-too = 'src.toobigdatadoc.too:main'
+too = "src.toobigdatadoc.too:main"
+wn = "src.weeknumber.wn:app"

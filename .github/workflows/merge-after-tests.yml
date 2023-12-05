@@ -36,7 +36,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Generate tag name from release branch name
+      - name: Generate tag name >> GITHUB_ENV
         run: |
           echo "release_tag_name=$(echo "$RELEASE_BRANCH" \
             | sed --regexp-extended \
@@ -44,13 +44,11 @@ jobs:
 
       - name: Configure repo for autobot merge commit
         run: |
-          echo "set git user.name and email"
           git config user.name gha-bot
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git config --list
           git checkout "$RELEASE_BRANCH"
           git branch --list
-          echo "git log this stuff"
           git log  --graph -n10 --pretty=format:'%h %as %cn %x09%s %d'
 
       - name: Merge the latest release commit
@@ -63,10 +61,8 @@ jobs:
           git checkout main
           git branch --list
           git merge --no-ff "$RELEASE_BRANCH"
-          git status
           git tag --annotate "$release_tag_name" -m "release $release_tag_name"
-          git log --graph -n20 --pretty=format:'%h %as %cn %x09%s %d'
-          echo 'running: git push origin $release_tag_name'
+          git log --graph -n10 --pretty=format:'%h %as %cn %x09%s %d'
           git push origin "$release_tag_name"
           git push origin main
      
@@ -76,7 +72,8 @@ jobs:
           git merge --no-ff main
           git push origin "$release_tag_name"
           git push origin dev
-          echo "you can delete your release branch now"
+          echo "RELEASE AND DEV MERGED"
+          ehco "YOU CAN DELETE RELEASE BRANCH: $RELEASE_BRANCH"
 
   on-failure:
     runs-on: ubuntu-latest
