@@ -14,17 +14,15 @@ info:
   @echo
   @echo "   {{LC}}Workflow to develop python scripts and deploy to homebrew.{{LG}}"
   @echo
-  @echo "       Develop and commit on dev, pull feature branch."
-  @echo "       Commit incrementally."
-  @echo "       2. just test"
-  @echo "       3. just bump"
-  @echo "       4. finalize dev commits, pull release branch release/0.2.0"
+  @echo "       {{LG}}1.{{NC}} Develop/commit on dev"
+  @echo "       {{LG}}2.{{NC}} just test"
+  @echo "       {{LG}}3.{{NC}} just bump"
+  @echo "       {{LG}}4.{{NC}} pull release branch release/X.Y.Z"
   @echo "           * final TESTS and debug"
-  @echo "           * bump version"
   @echo "           * PR 'release/0.2.0' for CI/CD tests"
   @echo "           * merge to main"
   @echo "           * tag"
-  @echo "       5. release to homebrew repo on merge to main"
+  @echo "       {{LG}}5.{{NC}} release to homebrew repo on merge to main"
 
 
 # ptpython REPL in poetry shell
