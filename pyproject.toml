@@ -7,11 +7,14 @@ license = "MIT"
 packages = [
     { include = "src/toobigdatadoc" }
 ]
+readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.11"
 argparse = "^1.4.0"
 GitPython = "^3.1.27"
+typer = {extras = ["all"], version = "^0.9.0"}
+pendulum = "~2.0"
 
 [tool.poetry.group.dev.dependencies]
 ptpython = "^3.0.23"
@@ -25,4 +28,5 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-too = 'src.toobigdatadoc.too:main'
+too = "src.toobigdatadoc.too:main"
+wn = "src.weeknumber.wn:app"
