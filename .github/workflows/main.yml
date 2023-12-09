@@ -53,6 +53,7 @@ jobs:
           git checkout main
           git branch --list
           git merge --no-ff "$RELEASE_BRANCH"
+          git push origin main
           git tag --annotate "$release_tag_name" -m "release $release_tag_name"
           git push origin "$release_tag_name"
 

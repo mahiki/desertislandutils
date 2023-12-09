@@ -3,7 +3,6 @@ name: Test desertislandutils
 on:
   push:
     branches:
-      - 'release/**'
       - 'dev'
       - 'main'
     paths-ignore:
