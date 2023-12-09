@@ -3,8 +3,7 @@ name: Test desertislandutils
 on:
   push:
     branches:
-      - 'dev'
-      - 'main'
+      - '**'
     paths-ignore:
       - '**.md'
   pull_request:

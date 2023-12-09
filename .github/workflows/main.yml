@@ -43,6 +43,12 @@ jobs:
           git branch --list
           git log  --graph -n10 --pretty=format:'%h %as %cn %x09%s %d'
 
+      - name: Merge back to dev
+        run: |
+          git checkout dev
+          git merge --no-ff main
+          git push origin dev
+
       - name: Merge the latest release commit
         run: |
           echo "release_tag_name: $release_tag_name"
@@ -51,7 +57,6 @@ jobs:
           # required to initialise branch visibility
           git checkout "$RELEASE_BRANCH"
           git checkout main
-          git branch --list
           git merge --no-ff "$RELEASE_BRANCH"
           git push origin main
           git tag --annotate "$release_tag_name" -m "release $release_tag_name"
@@ -59,14 +64,11 @@ jobs:
 
           echo "++++++++++++++++++++++++++++++++++++++++++++++++++++"
           git log --graph --all -n10 --pretty=format:'%h %as %cn %x09%s %d'
-     
-      - name: Merge back to dev
+
+      - name:
         run: |
-          git checkout dev
-          git merge --no-ff main
-          git push origin dev
-          echo "RELEASE AND DEV MERGED"
           echo "YOU CAN DELETE RELEASE BRANCH: $RELEASE_BRANCH"
+          echo "RELEASE AND DEV MERGED"
 
   on-failure:
     runs-on: ubuntu-latest
