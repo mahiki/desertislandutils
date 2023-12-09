@@ -29,9 +29,10 @@ info:
   @echo "           * final TESTS and debug"
   @echo "           * git push --set-upstream origin release/0.3.1"
   @echo "           * PR 'release/0.3.1' for CI/CD tests (click link to open PR)"
-  @echo "           * merge to main"
-  @echo "           * tag"
-  @echo "       {{LG}}5.{{NC}} release to homebrew repo on merge to main"
+  @echo "           * debug GHA tests"
+  @echo "           * GHA-bot auto-merge to main and tag"
+  @echo "       {{LG}}5.{{RD}} TODO:{{NC}} release to homebrew repo on merge to main"
+  @echo 
 
 
 # ptpython REPL in poetry shell

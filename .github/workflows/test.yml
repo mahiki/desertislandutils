@@ -4,9 +4,16 @@ on:
   push:
     branches:
       - 'release/**'
+      - 'dev'
+      - 'main'
     paths-ignore:
       - '**.md'
-
+  pull_request:
+    branches:
+      - '**'
+    paths-ignore:
+      - '**.md'
+  
   # NOTE: workflow_dispatch only work on main
   workflow_dispatch:
     inputs:
