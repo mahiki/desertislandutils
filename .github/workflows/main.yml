@@ -53,16 +53,17 @@ jobs:
           git checkout main
           git branch --list
           git merge --no-ff "$RELEASE_BRANCH"
-          git tag --annotate "$release_tag_name" -m "release $release_tag_name"
-          git log --graph -n10 --pretty=format:'%h %as %cn %x09%s %d'
-          git push origin "$release_tag_name"
           git push origin main
+          git tag --annotate "$release_tag_name" -m "release $release_tag_name"
+          git push origin "$release_tag_name"
+
+          echo "++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          git log --graph --all -n10 --pretty=format:'%h %as %cn %x09%s %d'
      
       - name: Merge back to dev
         run: |
           git checkout dev
           git merge --no-ff main
-          git push origin "$release_tag_name"
           git push origin dev
           echo "RELEASE AND DEV MERGED"
           echo "YOU CAN DELETE RELEASE BRANCH: $RELEASE_BRANCH"
