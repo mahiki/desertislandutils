@@ -1,4 +1,4 @@
-name: Merge to Main After Tests
+name: Merge Release Branch and Tag
 
 on:
   workflow_run:
@@ -7,19 +7,11 @@ on:
     branches:
       - 'release/**'
 
-  # this allows manual trigger from UI
-  workflow_dispatch:
-    inputs:
-      note:
-        description: 'Describe why you are doing this'
-        required: false
-        default: 'no message' 
-
 env:
   RELEASE_BRANCH: ${{ github.event.workflow_run.head_branch }}
 
 jobs:
-  print-vars-debugging:
+  print-branch-vars:
     runs-on: ubuntu-latest
     steps:
       - name: Show workspace contexts
@@ -27,7 +19,7 @@ jobs:
           echo "head branch of trigger run: ${{ github.event.workflow_run.head_branch }}"
           echo "shell RELEASE_BRANCH: $RELEASE_BRANCH"
 
-  on-success:
+  merge-and-tag:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
@@ -66,14 +58,14 @@ jobs:
           git push origin "$release_tag_name"
           git push origin main
      
-      - name: Merge back to dev - carry on development from here
+      - name: Merge back to dev
         run: |
           git checkout dev
           git merge --no-ff main
           git push origin "$release_tag_name"
           git push origin dev
           echo "RELEASE AND DEV MERGED"
-          ehco "YOU CAN DELETE RELEASE BRANCH: $RELEASE_BRANCH"
+          echo "YOU CAN DELETE RELEASE BRANCH: $RELEASE_BRANCH"
 
   on-failure:
     runs-on: ubuntu-latest
