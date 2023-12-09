@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "desertislandutils"
-version = "0.3.2"
+version = "0.3.3"
 description = "A collection of personal convenience utilities"
 authors = ["mahiki <mahiki@users.noreply.github.com>"]
 license = "MIT"
