@@ -53,3 +53,4 @@ jobs:
           echo "workflow: ${{ github.workflow }}"
           echo "job_id:  ${{ github.job }}"
           echo "job status:  ${{ job.status }}"
+          echo "commit tag name:  ${{ github.ref_name }}"
