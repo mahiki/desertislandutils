@@ -1,11 +1,9 @@
 name: Release desertislandutils
 
 on:
-  workflow_run:
-    workflows: [Merge Release Branch and Tag]
-    types: [completed]
-    branches:
-      - 'main'
+  push:
+    tags:
+      - 'v*.*.*'
 
 jobs:
   release:
@@ -23,7 +21,9 @@ jobs:
             poetry show --latest
       - run: |
             git branch --list
-            git log  --graph -n10 --pretty=format:'%h %as %cn %x09%s %d'
+            git log  --oneline --tags -n10 --pretty=format:'%h %as %cn %x09%s %d'
+            echo
+            echo "current tag is ${{ github.ref_name }}"
 
       - name: Build poetry distribution
         run: poetry build
