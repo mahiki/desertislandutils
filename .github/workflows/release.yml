@@ -10,8 +10,11 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
@@ -26,12 +29,17 @@ jobs:
             git log  --oneline --tags -n10 --pretty=format:'%h %as %cn %x09%s %d'
             echo
             echo "current ref is ${{ github.ref_name }}"
+            LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+            echo "latest tag: $LATEST_TAG"
 
       - name: Build poetry distribution
-        run: poetry build
+        run: |
+            git checkout $LATEST_TAG
+            poetry build
 
       - name: Create release from tag
         uses: ncipollo/release-action@v1
         with:
           artifacts: "dist/*"
           generateReleaseNotes: true
+          tag: $LATEST_TAG

@@ -11,18 +11,15 @@ env:
   RELEASE_BRANCH: ${{ github.event.workflow_run.head_branch }}
 
 jobs:
-  print-branch-vars:
+  merge-and-tag:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Show workspace contexts
         run: |
           echo "head branch of trigger run: ${{ github.event.workflow_run.head_branch }}"
           echo "shell RELEASE_BRANCH: $RELEASE_BRANCH"
 
-  merge-and-tag:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    steps:
       - name: 'Checkout the whole repo'
         uses: actions/checkout@v3
         with:
