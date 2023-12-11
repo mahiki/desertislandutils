@@ -1,10 +1,3 @@
-YW := '\033[0;33m'
-RD := '\033[0;31m'
-LC := '\033[0;36m'
-LB := '\033[0;34m'
-LG := '\033[0;32m'
-NC := '\033[0m'
-
 # just --list
 default:
   @just --list --unsorted
@@ -54,3 +47,16 @@ test *args:
   @echo
   @echo "            ✙✙✙✙✙✙✙✙    TESTING    ✙✙✙✙✙✙✙✙"
   poetry run pytest --disable-warnings --verbose {{args}}
+
+
+BN := '\033[0;33m'
+YW := '\033[1;33m'
+RD := '\033[0;31m'
+CY := '\033[0;36m'
+LC := '\033[1;36m'
+BL := '\033[0;34m'
+LB := '\033[1;34m'
+GN := '\033[0;32m'
+LG := '\033[1;32m'
+GY := '\033[0;37m'
+NC := '\033[0m'
