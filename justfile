@@ -1,9 +1,5 @@
-YW := '\033[0;33m'
-RD := '\033[0;31m'
-LC := '\033[0;36m'
-LB := '\033[0;34m'
-LG := '\033[0;32m'
-NC := '\033[0m'
+home_dir := `echo "$HOME"`
+export DOCKER_HOST := home_dir/".rd/docker.sock"
 
 # just --list
 default:
@@ -54,3 +50,15 @@ test *args:
   @echo
   @echo "            ✙✙✙✙✙✙✙✙    TESTING    ✙✙✙✙✙✙✙✙"
   poetry run pytest --disable-warnings --verbose {{args}}
+
+# act github actions runner
+act *args:
+  act --container-architecture linux/amd64 {{args}}
+
+# colors for output
+YW := '\033[0;33m'
+RD := '\033[0;31m'
+LC := '\033[0;36m'
+LB := '\033[0;34m'
+LG := '\033[0;32m'
+NC := '\033[0m'

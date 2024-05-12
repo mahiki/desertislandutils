@@ -24,6 +24,8 @@ jobs:
             pipx install --python $(which python) poetry
             poetry install
             poetry show --latest
+
+      - name: Get latest tag
       - run: |
             git branch --list
             git log  --oneline --tags -n10 --pretty=format:'%h %as %cn %x09%s %d'

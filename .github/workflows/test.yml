@@ -46,9 +46,25 @@ jobs:
       - run: |
           echo "REMINDER: Warnings are disabled"
 
+      - name: Get latest tag
+        id: get_tag
+        run: |
+          latest_tag=$(git describe --tags --abbrev=0)"
+          echo "latest_tag="${latest_tag}" >> $GITHUB_OUTPUT
+
+      - name: Get Poetry application version
+        id: app_version
+        run: |
+          poetry_app_version="$(poetry version --short)"
+          echo "poetry_app_version="v${poetry_app_version}" >> $GITHUB_OUTPUT
+
       - name: Print some workflow contexts
         run: |
           echo "workflow: ${{ github.workflow }}"
           echo "job_id:  ${{ github.job }}"
           echo "job status:  ${{ job.status }}"
-          echo "commit tag name:  ${{ github.ref_name }}"
+          echo "commit ref name:  ${{ github.ref_name }}"
+          echo "branch name: ${{ github.ref }}
+          echo "latest tag: ${{ steps.get_tag.outputs.latest_tag }}"
+          echo "poetry app version: ${{ steps.app_version.outputs.poetry_app_version }}"
+  

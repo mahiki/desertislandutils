@@ -65,3 +65,30 @@ jobs:
 ## OPTIONAL ADDITIONS
 Prerelease actions are available with examples of various approaches.
 [marvinpinto/actions release](https://github.com/marvinpinto/action-automatic-releases)
+
+
+### ACT local github actions runner
+Justfile is keeping the docker host and container arch flag.
+UGH. Problems with sockets, not macos images.... hopeless.
+
+```sh
+brew install act
+# using Rancher Desktop in dockerd mode
+export DOCKER_HOST=$HOME/.rd/docker.sock
+
+act --container-architecture linux/amd64 -l
+# Stage  Job ID                  Job name                Workflow name                 Workflow file          Events
+# 0      ubuntu-town             ubuntu-town             GHA Handy Workflow Reference  GHA.actions-handy.yml  push,workflow_dispatch
+# 0      official-actions-usage  official-actions-usage  GHA Handy Workflow Reference  GHA.actions-handy.yml  push,workflow_dispatch
+# 0      just-macos-things       just-macos-things       GHA Handy Workflow Reference  GHA.actions-handy.yml  push,workflow_dispatch
+# 0      on-failure              on-failure              Merge Release Branch and Tag  main.yml               workflow_run
+# 0      merge-and-tag           merge-and-tag           Merge Release Branch and Tag  main.yml               workflow_run
+# 0      release                 release                 Release desertislandutils     release.yml            workflow_run
+# 0      poetry-run-tests        poetry-run-tests        Test desertislandutils        test.yml               push,pull_request,workflow_dispatch
+
+act --container-architecture linux/amd64 -j poetry-run-tests -P macos-latest=-self-hosted
+# dang
+
+-P ubuntu-18.04=nektos/act-environments-ubuntu:18.04
+
+```
