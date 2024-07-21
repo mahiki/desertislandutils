@@ -1,11 +1,10 @@
 # desertislandutils
-Refactoring my convenience utility bash scripts into python for learning and profit.
+Refactoring my convenience utility bash scripts into python for learning and profit. Deployed for MacOS via homebrew, its really far better than shell scripting, yuck!
 
-* build: poetry
-* deploy: poetry -> pypi -> homebew
-* github CI actions
+## INSTALL
+    brew install mahiki/tap/desertislandutils
 
-## SCRIPTS
+## THE UTILS
 ### toobigdatadoc
 I like to keep text files in one directory system, with supporting data files and binary documents in parallel directories from the home folder: `toobig`, `toodata`, `toodoc`. For example, its easy to exclude the whole `toobig` directory structure from backups, since there is nothing but huge files here.
 
@@ -54,3 +53,27 @@ wn --help
 │ --help                       Show this message and exit.                                                      │
 ╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
+
+----------
+## DEVELOPMENT
+>Trying to automate the merge tag homebrew tap repo upgrade thing. Its not going great.
+
+* build: poetry
+* deploy: poetry -> pypi -> homebrew
+* github CI actions
+
+### JUSTFILE
+>Best documentation is in the Just taskrunner `justfile`.
+
+```sh
+just info
+
+just wn --help
+
+# also direct into poetry environment
+poetry shell
+(desertislandutils)> wn --help
+```
+
+### Testing
+    just test
