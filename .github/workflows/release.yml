@@ -52,4 +52,5 @@ jobs:
         with:
           artifacts: "dist/*"
           generateReleaseNotes: true
+          allowUpdates: true
           tag: ${{ steps.get_tag.outputs.latest_tag }}
