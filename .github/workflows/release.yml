@@ -31,7 +31,7 @@ jobs:
           poetry install
           poetry show --latest
 
-      - name: Get Gatest Tag
+      - name: Get Latest Tag
         id: get_tag
         run: |
             git branch --list
@@ -44,7 +44,7 @@ jobs:
 
       - name: Build Poetry Distribution from Latest Tag
         run: |
-            git checkout ${{ steps.get_tag.outputs.latest_tag }}"
+            git checkout "${{ steps.get_tag.outputs.latest_tag }}"
             poetry build
 
       - name: Create release from tag
