@@ -1,11 +1,11 @@
-home_dir := `echo "$HOME"`
-export DOCKER_HOST := home_dir/".rd/docker.sock"
+import './base.justfile'
+set positional-arguments := true
 
 # just --list
 default:
   @just --list --unsorted
 
-# poetry pass thru command
+# 'poetry run' pass thru command
 po *args:
   poetry run {{args}}
 
