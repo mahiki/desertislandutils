@@ -45,6 +45,7 @@ jobs:
         run: |
           python --version
           pipx install --python $(which python) poetry
+          poetry --version
           poetry install
           poetry show --latest
       
