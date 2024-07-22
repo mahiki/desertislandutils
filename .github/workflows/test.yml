@@ -49,14 +49,14 @@ jobs:
       - name: Get latest tag
         id: get_tag
         run: |
-          latest_tag=$(git describe --tags --abbrev=0)"
-          echo "latest_tag="${latest_tag}" >> $GITHUB_OUTPUT
+          latest_tag="$(git describe --tags --abbrev=0)"
+          echo latest_tag="${latest_tag}" >> $GITHUB_OUTPUT
 
       - name: Get Poetry application version
         id: app_version
         run: |
           poetry_app_version="$(poetry version --short)"
-          echo "poetry_app_version="v${poetry_app_version}" >> $GITHUB_OUTPUT
+          echo poetry_app_version="v${poetry_app_version}" >> $GITHUB_OUTPUT
 
       - name: Print some workflow contexts
         run: |
