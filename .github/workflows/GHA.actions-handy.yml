@@ -29,15 +29,27 @@ jobs:
   just-macos-things:
     runs-on: macos-latest
     steps:
-      - name: some basic items
-        run: |
-          printf "github.event_name:                    %s\n"   '${{ github.event_name }}'
-          printf "runner.os:                            %s\n"   '${{ runner.os }}'
-          printf "github.ref (branch):                  %s\n"   '${{ github.ref }}'
-          printf "github.repository:                    %s\n"   '${{ github.repository }}'
-          printf "github workspace:                     %s\n"   '${{ github.workspace }}'
-          printf "github branch/tag name:               %s\n"   '${{ github.ref_name }}'
-          printf "github branch/tag name from env var:  %s\n"   "$GITHUB_REF_NAME"
+    - name: Get latest tag
+      id: get_tag
+      run: echo ::set-output name=tag::$(git describe --tags --abbrev=0)
+
+    - name: Get latest tag
+      id: get_tag
+      run: |
+        "tag=$(git describe --tags --abbrev=0)"
+        echo "tag=${tag}" >> $GITHUB_OUTPUT
+
+    - name: some basic items  
+      run: |
+        printf "github.event_name:                    %s\n"   '${{ github.event_name }}'
+        printf "runner.os:                            %s\n"   '${{ runner.os }}'
+        printf "github.ref (branch):                  %s\n"   '${{ github.ref }}'
+        printf "github.repository:                    %s\n"   '${{ github.repository }}'
+        printf "github workspace:                     %s\n"   '${{ github.workspace }}'
+        printf "github branch/tag name:               %s\n"   '${{ github.ref_name }}'
+        printf "github branch/tag name from env var:  %s\n"   "$GITHUB_REF_NAME"
+        printf "latest tag name:                      %s\n"   "${{ steps.get_tag.outputs.tag }}"
+    
 
   ubuntu-town:
     runs-on: ubuntu-latest

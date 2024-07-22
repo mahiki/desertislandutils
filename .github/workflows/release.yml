@@ -1,35 +1,55 @@
 name: Release desertislandutils
+# create a release from the latest tag on MAIN or something
+
+env:
+  ACTIONS_STEP_DEBUG: true
 
 on:
-  push:
-    tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'
-
+  workflow_run:
+    workflows: [Merge Release Branch and Tag]
+    types: [completed]
+    branches:
+      - 'main'
+  
 jobs:
   release:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - run: python --version
-      - run: |
-            pipx install --python $(which python) poetry
-            poetry install
-            poetry show --latest
-      - run: |
+      - name: Install Poetry
+        run: |
+          python --version
+          pipx install --python $(which python) poetry
+          poetry --version
+          poetry install
+          poetry show --latest
+
+      - name: Get Gatest Tag
+        id: get_tag
+        run: |
             git branch --list
             git log  --oneline --tags -n10 --pretty=format:'%h %as %cn %x09%s %d'
             echo
-            echo "current tag is ${{ github.ref_name }}"
+            echo "current ref is ${{ github.ref_name }}"
+            latest_tag="$(git describe --tags --abbrev=0)"
+            echo "latest tag: ${latest_tag}"
+            echo latest_tag="${latest_tag}" >> $GITHUB_OUTPUT
 
-      - name: Build poetry distribution
-        run: poetry build
+      - name: Build Poetry Distribution from Latest Tag
+        run: |
+            git checkout ${{ steps.get_tag.outputs.latest_tag }}"
+            poetry build
 
       - name: Create release from tag
         uses: ncipollo/release-action@v1
         with:
           artifacts: "dist/*"
           generateReleaseNotes: true
+          tag: ${{ steps.get_tag.outputs.latest_tag }}

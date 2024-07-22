@@ -1,5 +1,9 @@
 name: Merge Release Branch and Tag
 
+env:
+  ACTIONS_STEP_DEBUG: true
+  RELEASE_BRANCH: ${{ github.event.workflow_run.head_branch }}
+
 on:
   workflow_run:
     workflows: [Test desertislandutils]
@@ -7,24 +11,18 @@ on:
     branches:
       - 'release/**'
 
-env:
-  RELEASE_BRANCH: ${{ github.event.workflow_run.head_branch }}
-
 jobs:
-  print-branch-vars:
+  merge-and-tag:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Show workspace contexts
         run: |
           echo "head branch of trigger run: ${{ github.event.workflow_run.head_branch }}"
           echo "shell RELEASE_BRANCH: $RELEASE_BRANCH"
 
-  merge-and-tag:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    steps:
-      - name: 'Checkout the whole repo'
-        uses: actions/checkout@v3
+      - name: Checkout the whole repo
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -43,6 +41,12 @@ jobs:
           git branch --list
           git log  --graph -n10 --pretty=format:'%h %as %cn %x09%s %d'
 
+      # - name: Merge back to dev
+      #   run: |
+      #     git checkout dev
+      #     git merge --no-ff main
+      #     git push origin dev
+
       - name: Merge the latest release commit
         run: |
           echo "release_tag_name: $release_tag_name"
@@ -51,7 +55,6 @@ jobs:
           # required to initialise branch visibility
           git checkout "$RELEASE_BRANCH"
           git checkout main
-          git branch --list
           git merge --no-ff "$RELEASE_BRANCH"
           git push origin main
           git tag --annotate "$release_tag_name" -m "release $release_tag_name"
@@ -59,14 +62,11 @@ jobs:
 
           echo "++++++++++++++++++++++++++++++++++++++++++++++++++++"
           git log --graph --all -n10 --pretty=format:'%h %as %cn %x09%s %d'
-     
-      - name: Merge back to dev
+
+      - name:
         run: |
-          git checkout dev
-          git merge --no-ff main
-          git push origin dev
-          echo "RELEASE AND DEV MERGED"
           echo "YOU CAN DELETE RELEASE BRANCH: $RELEASE_BRANCH"
+          echo "RELEASE AND DEV MERGED"
 
   on-failure:
     runs-on: ubuntu-latest

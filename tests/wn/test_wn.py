@@ -1,45 +1,106 @@
-import os, time
-import pendulum
 from src.weeknumber.wn import main
 
-TZ = pendulum.local_timezone().name
+calendarstring = """
+just for reference:
 
-def test_wn_options(capsys):
-    out1 = "2023-W48\n"
-    main("2023-11-29")
-    out, _ = capsys.readouterr()
-    assert out == "2023-W48\n"
+   December 2019
+Su Mo Tu We Th Fr Sa  Sat Weekend
+ 1  2  3  4  5  6  7
+ 8  9 10 11 12 13 14
+15 16 17 18 19 20 21  2019-W51
+22 23 24 25 26 27 28  2019-W52
+29 30 31  1  2  3  4  2020-W01 January 2020
+ 5  6  7  8  9 10 11  2020-W02
 
-    out2 = f"""Input date string: 2112-07-24
-Timezone: {TZ}
-Parsed date: 2112-07-24
-ISO week number:
-2112-W29\n"""
-    main("2112-07-24", sunday_weekend=True, verbose=True)
-    out, _ = capsys.readouterr()
-    assert out == out2
+   December 2020
+Su Mo Tu We Th Fr Sa
+ 6  7  8  9 10 11 12  2020-W50
+13 14 15 16 17 18 19  2020-W51
+20 21 22 23 24 25 26  2020-W52
+27 28 29 30 31  1  2  2020-W53 January 2021
+ 3  4  5  6  7  8  9  2021-W01
+10 11 12 13 14 15 16  2021-W02
+"""
 
-    out3 = f"""Input date string: 2112-07-24
-Timezone: {TZ}
-Parsed date: 2112-07-24
-ISO week number:
-2112-W30\n"""
-    main("2112-07-24", sunday_weekend=False, verbose=True)
-    out, _ = capsys.readouterr()
-    assert out == out3
+testcase_sat = {
+      '2020-12-18': '2020-W51'
+    , '2020-12-19': '2020-W51'
+    , '2020-12-20': '2020-W52'
+    , '2020-12-21': '2020-W52'
+    , '2020-12-22': '2020-W52'
+    , '2020-12-25': '2020-W52'
+    , '2020-12-26': '2020-W52'
+    , '2020-12-27': '2020-W53'
+    , '2020-12-28': '2020-W53'
+    , '2020-12-31': '2020-W53'
+    , '2021-01-01': '2020-W53'
+    , '2021-01-02': '2020-W53'
+    , '2021-01-03': '2021-W01'
+    , '2021-01-04': '2021-W01'
+    , '2021-01-05': '2021-W01'
+    , '2021-01-06': '2021-W01'
+    , '2021-01-07': '2021-W01'
+    , '2021-01-08': '2021-W01'
+    , '2021-01-09': '2021-W01'
+    , '2021-01-10': '2021-W02'
+    , '2021-01-11': '2021-W02'
+    }
 
-    out4 = "2112-W30\n"
-    main("2112-07-24")
-    out, _ = capsys.readouterr()
-    assert out == out4
+testcase_sun = {
+      '2020-12-18': '2020-W51'
+    , '2020-12-19': '2020-W51'
+    , '2020-12-20': '2020-W51'
+    , '2020-12-21': '2020-W52'
+    , '2020-12-22': '2020-W52'
+    , '2020-12-25': '2020-W52'
+    , '2020-12-26': '2020-W52'
+    , '2020-12-27': '2020-W52'
+    , '2020-12-28': '2020-W53'
+    , '2020-12-31': '2020-W53'
+    , '2021-01-01': '2020-W53'
+    , '2021-01-02': '2020-W53'
+    , '2021-01-03': '2020-W53'
+    , '2021-01-04': '2021-W01'
+    , '2021-01-05': '2021-W01'
+    , '2021-01-06': '2021-W01'
+    , '2021-01-07': '2021-W01'
+    , '2021-01-08': '2021-W01'
+    , '2021-01-09': '2021-W01'
+    , '2021-01-10': '2021-W01'
+    , '2021-01-11': '2021-W02'
+    , '2021-01-12': '2021-W02'
+    }
 
-    out5 = "2112-W29\n"
-    main("2112-07-24", last_week=True)
-    out, _ = capsys.readouterr()
-    assert out == out5
+testcase_last = {
+      '2019-12-27': '2019-W51'
+    , '2019-12-28': '2019-W51'
+    , '2019-12-29': '2019-W52'
+    , '2019-12-30': '2019-W52'
+    , '2019-12-31': '2019-W52'
+    , '2020-01-01': '2019-W52'
+    , '2020-01-02': '2019-W52'
+    , '2020-01-03': '2019-W52'
+    , '2020-01-04': '2019-W52'
+    , '2020-01-05': '2020-W01'
+    , '2020-01-06': '2020-W01'
+    , '2020-01-07': '2020-W01'
+    , '2020-01-08': '2020-W01'
+}
 
-    out6 = pendulum.now().subtract(weeks=1).strftime("%Y-W%V")
-    today = pendulum.now().strftime("%Y-%m-%d")
-    main(today, last_week=True)
-    out, _ = capsys.readouterr()
-    assert out == out6 + "\n"
+def test_week_numbers_sat(capsys):
+    for case in testcase_sat:
+        main(case)
+        out, _ = capsys.readouterr()
+        assert out == (testcase_sat[case] + '\n')
+
+def test_week_numbers_sun(capsys):
+    for case in testcase_sun:
+        main(case, sunday_weekend=True)
+        out, _ = capsys.readouterr()
+        assert out == (testcase_sun[case] + '\n')
+
+def test_week_numbers_last(capsys):
+    for case in testcase_last:
+        main(case, last_week = True)
+        out, _ = capsys.readouterr()
+        assert out == (testcase_last[case] + '\n')
