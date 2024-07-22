@@ -1,4 +1,4 @@
-name: Release desertislandutils
+name: Publish Release
 # create a release from the latest tag on MAIN or something
 
 env:
@@ -34,23 +34,28 @@ jobs:
       - name: Get Latest Tag
         id: get_tag
         run: |
-            git branch --list
-            git log  --oneline --tags -n10 --pretty=format:'%h %as %cn %x09%s %d'
-            echo
-            echo "current ref is ${{ github.ref_name }}"
-            latest_tag="$(git describe --tags --abbrev=0)"
-            echo "latest tag: ${latest_tag}"
-            echo latest_tag="${latest_tag}" >> $GITHUB_OUTPUT
+          git branch --list
+          git log  --oneline --tags -n10 --pretty=format:'%h %as %cn %x09%s %d'
+          echo
+          echo "current ref is ${{ github.ref_name }}"
+          latest_tag="$(git describe --tags --abbrev=0)"
+          echo "latest tag: ${latest_tag}"
+          echo latest_tag="${latest_tag}" >> $GITHUB_OUTPUT
 
       - name: Build Poetry Distribution from Latest Tag
         run: |
-            git checkout "${{ steps.get_tag.outputs.latest_tag }}"
-            poetry build
+          git checkout "${{ steps.get_tag.outputs.latest_tag }}"
+          poetry build
 
       - name: Create release from tag
+        id: create_release
         uses: ncipollo/release-action@v1
         with:
           artifacts: "dist/*"
           generateReleaseNotes: true
           allowUpdates: true
           tag: ${{ steps.get_tag.outputs.latest_tag }}
+
+      - name: Release URL Output
+        run: |
+          echo release URL: ${{ steps.create_release.outputs.html_url }}
