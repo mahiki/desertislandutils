@@ -1,4 +1,4 @@
-import '~/.config/just-systems/base.justfile'
+import './base.justfile'
 set positional-arguments := true
 
 # just --list
@@ -6,7 +6,7 @@ set positional-arguments := true
 default:
   @just --list --unsorted --list-heading $'Poetry development workflow commands:\n'
 
-# poetry pass thru command
+# 'poetry run' pass thru command
 po *args:
   @poetry run "$@"
 

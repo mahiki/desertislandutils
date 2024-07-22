@@ -1,14 +1,15 @@
 name: Merge Release Branch and Tag
 
+env:
+  ACTIONS_STEP_DEBUG: true
+  RELEASE_BRANCH: ${{ github.event.workflow_run.head_branch }}
+
 on:
   workflow_run:
     workflows: [Test desertislandutils]
     types: [completed]
     branches:
       - 'release/**'
-
-env:
-  RELEASE_BRANCH: ${{ github.event.workflow_run.head_branch }}
 
 jobs:
   merge-and-tag:
@@ -20,8 +21,8 @@ jobs:
           echo "head branch of trigger run: ${{ github.event.workflow_run.head_branch }}"
           echo "shell RELEASE_BRANCH: $RELEASE_BRANCH"
 
-      - name: 'Checkout the whole repo'
-        uses: actions/checkout@v3
+      - name: Checkout the whole repo
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
