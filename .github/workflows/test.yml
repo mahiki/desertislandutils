@@ -56,7 +56,7 @@ jobs:
       - name: Get Latest Tag
         id: get_tag
         run: |
-          latest_tag="$(git ls-remote origin 'refs/tags/v*[0-9]' | awk -F'refs/tags/' '{print $2}')"
+          latest_tag="$(git ls-remote origin 'refs/tags/v*[0-9]' | awk -F'refs/tags/' '{print $2}' | sort -V | tail -1)"
           echo latest_tag="${latest_tag}" >> $GITHUB_OUTPUT
 
       - name: Get desertislandutils Version
