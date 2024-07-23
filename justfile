@@ -62,4 +62,4 @@ info:
   @echo "       {{GR}}poetry shell"
   @echo "       {{BGR}}wn --help"
   @echo
-  
+  @echo "# TODO: git push --set-upstream origin release/0.3.9"

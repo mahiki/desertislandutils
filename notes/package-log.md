@@ -96,7 +96,6 @@ packages = [
 [tool.poetry.scripts]
 too = "src.toobigdatadoc.too:main"
 wn = "src.weeknumber.wn:app"
-
 ```
 
 Looks like that needs update and fix.
