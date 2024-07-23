@@ -2,6 +2,22 @@
 * build and bump homebrew: justfile or github actions?
 * tests in GHA is cool, esp merge after tests pass
 
+## TODO: ADD TEST FOR BUILD/DEPLOY
+Homebrew calls each script like the following. Its possible the deployed script can fail because of misconfiguration in the pyproject file.
+So its smart to run a test of the built package by building in CICD `brew install desertislandutils.rb` or something.
+
+```sh
+# /opt/homebrew/bin/wn
+#!/opt/homebrew/Cellar/desertislandutils/0.3.9/libexec/bin/python
+# -*- coding: utf-8 -*-
+import re
+import sys
+from src.weeknumber.wn import app
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.exit(app())
+```
+
 ## TODO: GHA AUTOMATION: WHAT?
 Goals are what?
 

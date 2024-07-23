@@ -34,9 +34,17 @@ This one looks pretty simple
 gh release create v1.2.3 --generate-notes ./dist/*
 ```
 
+### Example Gist: Lots of components of interest
+https://gist.github.com/maxspahn/1e53f002bf504517c76b6fcbae9b36cc
+
 #### Poetry uses ncipollo/release-action@v1
 Looks good, poetry is tight, and generates notes too.
 [poetry repo workflow](https://github.com/python-poetry/poetry/blob/master/.github/workflows/release.yml)
+
+Output URL: (see release.yml)
+    
+    echo release URL: ${{ steps.create_release.outputs.html_url }}
+    release URL: https://github.com/mahiki/desertislandutils/releases/tag/v0.3.9
 
 ```yaml
 name: Releases
