@@ -1,6 +1,18 @@
 # Package desertislandutils Log
 >starting an actual log
 
+
+## 2024-07-23: POETRY PLUGIN HOMEBREW-FORMULA
+I think this is to solve the way install is a little different than virtualenv or pip install build things.
+
+```sh
+git checkout -b feature/po-brew-form
+pipx inject poetry poetry-homebrew-formula
+poetry homebrew-formula --help
+
+```
+
+
 ## 2024-07-22: GHA Working finally
 *  `release.yml` is working on tag `v0.3.9` 
 *  good to go with pushing `release/*` tags
