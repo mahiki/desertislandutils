@@ -5,7 +5,8 @@ description = "A collection of personal convenience utilities"
 authors = ["mahiki <mahiki@users.noreply.github.com>"]
 license = "MIT"
 packages = [
-    { include = "src/toobigdatadoc" }
+    { include = "src/toobigdatadoc" },
+    { include = "src/weeknumber" },
 ]
 readme = "README.md"
 
