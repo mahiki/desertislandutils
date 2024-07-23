@@ -2,7 +2,15 @@
 * build and bump homebrew: justfile or github actions?
 * tests in GHA is cool, esp merge after tests pass
 
+
+## TODO: homebrew deployment
+https://docs.brew.sh/Formula-Cookbook
+There is a process for testing the formula and its built application before merging to main and surfacing the new version to the world as a broken tool.
+
 ## TODO: ADD TEST FOR BUILD/DEPLOY
+1. poetry build -> test functionality as built cli command
+2. brew side: test functionality before merging the formual
+
 Homebrew calls each script like the following. Its possible the deployed script can fail because of misconfiguration in the pyproject file.
 So its smart to run a test of the built package by building in CICD `brew install desertislandutils.rb` or something.
 
