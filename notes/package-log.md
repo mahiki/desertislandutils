@@ -9,9 +9,11 @@ I think this is to solve the way install is a little different than virtualenv o
 git checkout -b feature/po-brew-form
 pipx inject poetry poetry-homebrew-formula
 poetry homebrew-formula --help
+    # Generating formula
 
+    # No valid link found for desertislandutils.
 ```
-
+Well, that was fun
 
 ## 2024-07-22: GHA Working finally
 *  `release.yml` is working on tag `v0.3.9` 
@@ -39,10 +41,10 @@ curl -Ls $vLatest  | shasum -a 256
 # https://github.com/mahiki/homebrew-tap/blob/main/Formula/desertislandutils.rb
 code ./homebrew-tap/Formula/desertislandutils.rb
 
-brew audit desertislandtils
+brew audit desertislandutils
 # nothing
 
-brew edit desertislandtils
+brew edit desertislandutils
     # this just opens the local file /opt/homebrew/Library/Taps/mahiki/homebrew-tap/Formula/desertislandutils.rb
 
 brew developer off
@@ -111,3 +113,40 @@ wn = "src.weeknumber.wn:app"
 ```
 
 Looks like that needs update and fix.
+
+
+### Poetry Creates its Own Executable Scripts
+And Poetry creates an executable script as well in the virtual environment:
+```sh
+# bin/wn:
+bat --style plain ~/Library/Caches/pypoetry/virtualenvs/desertislandutils-zyraM7-y-py3.12/bin/wn
+#!~/Library/Caches/pypoetry/virtualenvs/desertislandutils-zyraM7-y-py3.12/bin/python
+import sys
+from src.weeknumber.wn import app
+
+if __name__ == '__main__':
+    sys.exit(app())
+
+# bin/too:
+bat --style plain ~/Library/Caches/pypoetry/virtualenvs/desertislandutils-zyraM7-y-py3.12/bin/too
+#!~/Library/Caches/pypoetry/virtualenvs/desertislandutils-zyraM7-y-py3.12/bin/python
+import sys
+from src.toobigdatadoc.too import main
+
+if __name__ == '__main__':
+    sys.exit(main())
+```
+
+### So what is this `--no-root` business?
+```sh
+cd "$(mktemp -d)"
+curl -LO https://github.com/mahiki/desertislandutils/releases/download/v0.3.10/desertislandutils-0.3.10.tar.gz
+tar -xf
+cd desertislandutils-0.3.10
+poetry install --no-root
+    # Creating virtualenv desertislandutils-vB0CMQFH-py3.12 in ~/Library/Caches/pypoetry/virtualenvs
+    # installs all dependencies
+l ~/Library/Caches/pypoetry/virtualenvs/desertislandutils-vB0CMQFH-py3.12/bin
+# NOPE
+# There is no executable script call for each poetry thing.
+```
