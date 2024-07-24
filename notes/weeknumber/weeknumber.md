@@ -7,7 +7,7 @@ Also, its time to incorporate `justfile` into my package development workflow, s
 Typer is pretty sweet, waaay beyond Argparse.
 
 TODO: release is merged, need to GHA auto push to homebrew. See below, i think was manual change to tab formula.
-The tap is referencing the mahiki/desertislandtils release page with tar.gz per version.
+The tap is referencing the mahiki/desertislandutils release page with tar.gz per version.
 TODO: GHA create a release
 TODO: brew tap create tag and push updated URLs commit.
 
@@ -100,7 +100,7 @@ just test tests/wn
             ✙✙✙✙✙✙✙✙    TESTING    ✙✙✙✙✙✙✙✙
 poetry run pytest --disable-warnings --verbose tests/wn
 ========================================================= test session starts ==========================================================
-rootdir: /Users/merlinr/repo/the-others/desertislandutils
+rootdir: /Users/hans/repo/the-others/desertislandutils
 collected 1 item
 tests/wn/test_wn.py::test_wn_options PASSED                                                                                      [100%]
 ```

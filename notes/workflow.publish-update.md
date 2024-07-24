@@ -32,7 +32,7 @@ So new PR is automatically created for a 'release' branch pushed to remove
 
 ### PASS:test local release version in real usage
 ```bash
-# from desertislandtils
+# from desertislandutils
 poetry shell
 # /Users/segovia/Library/Caches/pypoetry/virtualenvs/desertislandutils-AVSNhiuH-py3.9
 

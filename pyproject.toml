@@ -3,12 +3,14 @@ name = "desertislandutils"
 version = "0.3.10"
 description = "A collection of personal convenience utilities"
 authors = ["mahiki <mahiki@users.noreply.github.com>"]
+homepage = "https://github.com/mahiki/desertislandutils"
+repository = "https://github.com/mahiki/desertislandutils"
+readme = "README.md"
 license = "MIT"
 packages = [
     { include = "src/toobigdatadoc" },
     { include = "src/weeknumber" },
 ]
-readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"

@@ -15,7 +15,7 @@ TODO:
 
 ## TODO: MANUAL BUILD STEPS TO AUTOMATE
 ```sh
-# cd  ../desertislandtils
+# cd  ../desertislandutils
 git checkout tag v0.2.1
 poetry run pytest       # DEFINITELY INCLUDE THIS IN WORKFLOW
 poetry build --format sdist
