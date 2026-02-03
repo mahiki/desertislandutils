@@ -4,11 +4,10 @@ env:
   ACTIONS_STEP_DEBUG: true
 
 on:
-  workflow_run:
-    pull_request:
-      types: [closed]
-      branches:
-        - main
+  pull_request:
+    types: [closed]
+    branches:
+      - main
 
 jobs:
   tag-release:
