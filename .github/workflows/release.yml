@@ -8,9 +8,7 @@ on:
   workflow_run:
     workflows: [Merge Release Branch and Tag]
     types: [completed]
-    branches:
-      - 'main'
-  
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -28,8 +26,6 @@ jobs:
           python --version
           pipx install --python $(which python) poetry
           poetry --version
-          poetry install
-          poetry show --latest
 
       - name: Get Latest Tag
         id: get_tag
@@ -45,6 +41,7 @@ jobs:
       - name: Build Poetry Distribution from Latest Tag
         run: |
           git checkout "${{ steps.get_tag.outputs.latest_tag }}"
+          poetry install
           poetry build
 
       - name: Create release from tag
