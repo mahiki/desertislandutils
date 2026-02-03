@@ -1,5 +1,5 @@
 """
-CLI utility that gives the ISO reporting week for a given date. 
+CLI utility that gives the ISO reporting week for a given date.
 Option allows week ending day of Saturday or Sunday.
 Option for week number of most recently completed week.
 Example: wn --last
@@ -62,7 +62,11 @@ def main(
         , typer.Option(
             "--last"
             , help="Give week number of most recently completed week (overrides DATE argument).")] = False
-    , verbose: bool = False
+    , verbose: Annotated[bool
+        , typer.Option(
+            "--verbose", "-v"
+            , help="Full parsed date details for verification."
+        )] = False
     ):
     """
     ISO year week number of a date as YYYY-"W"WW. Default weekend day is Saturday.\n
@@ -72,7 +76,7 @@ def main(
     """
     parsed_date = pendulum.parse(date, strict=False)
     if verbose: verbose_output(date, parsed_date, sunday_weekend, last_week)
-    
+
     if last_week:
         result = week_number_string(parsed_date.subtract(weeks=1), sunday_weekend=sunday_weekend)
     else:
