@@ -65,7 +65,7 @@ def main(
     , verbose: Annotated[bool
         , typer.Option(
             "--verbose", "-v"
-            , help="Full parsed date details."
+            , help="Full parsed date details for verification."
         )] = False
     ):
     """
