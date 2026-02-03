@@ -2,74 +2,47 @@ name: Merge Release Branch and Tag
 
 env:
   ACTIONS_STEP_DEBUG: true
-  RELEASE_BRANCH: ${{ github.event.workflow_run.head_branch }}
 
 on:
   workflow_run:
-    workflows: [Test desertislandutils]
-    types: [completed]
-    branches:
-      - 'release/**'
+    pull_request:
+      types: [closed]
+      branches:
+        - main
 
 jobs:
-  merge-and-tag:
+  tag-release:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: |
+      github.event.pull_request.merged == true &&
+      startsWith(github.event.pull_request.head.ref, 'release/')
     steps:
-      - name: Show workspace contexts
+      - name: Show PR info
         run: |
-          echo "head branch of trigger run: ${{ github.event.workflow_run.head_branch }}"
-          echo "shell RELEASE_BRANCH: $RELEASE_BRANCH"
+          echo "PR merged from: ${{ github.event.pull_request.head.ref }}"
+          echo "PR merged to: ${{ github.event.pull_request.base.ref }}"
 
-      - name: Checkout the whole repo
+      - name: Checkout the repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Generate tag name >> GITHUB_ENV
+      - name: Generate tag name
+        id: tag
         run: |
-          echo "release_tag_name=$(echo "$RELEASE_BRANCH" \
-            | sed --regexp-extended \
-            's/.*release.*([0-9].[0-9].[0-9])/v\1/g')" >> $GITHUB_ENV
+          release_branch="${{ github.event.pull_request.head.ref }}"
+          tag_name=$(echo "$release_branch" | sed -E 's/.*release.*([0-9]+\.[0-9]+\.[0-9]+).*/v\1/')
+          echo "release_tag_name=$tag_name" >> $GITHUB_OUTPUT
+          echo "Generated tag: $tag_name"
 
-      - name: Configure repo for autobot merge commit
+      - name: Create and push tag
         run: |
           git config user.name gha-bot
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git config --list
-          git checkout "$RELEASE_BRANCH"
-          git branch --list
-          git log  --graph -n10 --pretty=format:'%h %as %cn %x09%s %d'
-
-      # - name: Merge back to dev
-      #   run: |
-      #     git checkout dev
-      #     git merge --no-ff main
-      #     git push origin dev
-
-      - name: Merge the latest release commit
-        run: |
-          echo "release_tag_name: $release_tag_name"
-          echo "next step: git merge --no-ff $RELEASE_BRANCH"
-
-          # required to initialise branch visibility
-          git checkout "$RELEASE_BRANCH"
-          git checkout main
-          git merge --no-ff "$RELEASE_BRANCH"
-          git push origin main
-          git tag --annotate "$release_tag_name" -m "release $release_tag_name"
-          git push origin "$release_tag_name"
-
+          git tag --annotate "${{ steps.tag.outputs.release_tag_name }}" -m "release ${{ steps.tag.outputs.release_tag_name }}"
+          git push origin "${{ steps.tag.outputs.release_tag_name }}"
+          echo
           echo "++++++++++++++++++++++++++++++++++++++++++++++++++++"
           git log --graph --all -n10 --pretty=format:'%h %as %cn %x09%s %d'
-
-      - name:
-        run: |
+          echo "Tag "${{ steps.tag.outputs.release_tag_name }}" created and pushed"
           echo "YOU CAN DELETE RELEASE BRANCH: $RELEASE_BRANCH"
-          echo "RELEASE AND DEV MERGED"
-
-  on-failure:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
-    steps:
-      - run: echo 'STOP THE PRESSES NO MERGE. MUST SEND A MESSAGE'
