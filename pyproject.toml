@@ -1,6 +1,6 @@
 [project]
 name = "desertislandutils"
-version = "0.4.2"
+version = "0.4.3"
 description = "A collection of personal convenience utilities"
 authors = [{name = "mahiki", email = "mahiki@users.noreply.github.com"}]
 license = {text = "MIT"}
@@ -12,6 +12,11 @@ dependencies = [
     "typer>=0.12.0",
     "pendulum>=3.0.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/mahiki/desertislandutils"
+Repository = "https://github.com/mahiki/desertislandutils"
+Issues = "https://github.com/mahiki/desertislandutils/issues"
 
 [project.optional-dependencies]
 dev = [
