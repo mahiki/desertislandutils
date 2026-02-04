@@ -1,4 +1,5 @@
 # desertislandutils
+[![PyPI version](https://badge.fury.io/py/desertislandutils.svg)](https://pypi.org/project/desertislandutils/)
 
 A collection of personal convenience utilities for managing parallel directory structures and ISO week numbers. Written in Python because it's far better than shell scripting!
 
@@ -75,7 +76,7 @@ wn --help
                                                                                 
 ╭─ Arguments ────────────────────────────────────────────────────────────────╮
 │   date      [DATE]  A text expression of date, ex: 'November 27', or      │
-│                     2112-07-29. Default is today's in current TZ.          │
+│                     2112-07-29. Default is todayʼs in current TZ.          │
 │                     [default: (dynamic)]                                   │
 ╰────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ──────────────────────────────────────────────────────────────────╮
