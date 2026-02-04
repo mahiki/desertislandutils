@@ -4,19 +4,19 @@ set positional-arguments := true
 # just --list
 [private]
 default:
-  @just --list --unsorted --list-heading $'Poetry development workflow commands:\n'
+  @just --list --unsorted --list-heading $'UV development workflow commands:\n'
 
-# 'poetry run' pass thru command
-po *args:
-  @poetry run "$@"
+# 'uv run' pass thru command
+uv *args:
+  @uv run "$@"
 
 # pass thru
 pass *args:
   {{args}}
 
-# ptpython REPL in poetry shell
+# ptpython REPL in uv environment
 repl:
-  @poetry run ptpython
+  @uv run ptpython
 
 # instructions to bump version number
 bump:
@@ -32,12 +32,12 @@ bump:
 test *args:
   @echo
   @echo "            ✙✙✙✙✙✙✙✙    TESTING    ✙✙✙✙✙✙✙✙"
-  poetry run pytest --disable-warnings --verbose {{args}}
+  uv run pytest --disable-warnings --verbose {{args}}
 
 # INFO: develop, build, deploy
 info:
   @echo
-  @echo "   {{BCY}}Workflow to develop python scripts and deploy to homebrew{{NC}}"
+  @echo "   {{BCY}}Workflow to develop python scripts and deploy via uv tool{{NC}}"
   @echo
   @echo "       {{CY}}1.{{NC}} Develop/commit on dev"
   @echo "       {{CY}}2.{{NC}} just test"
@@ -48,18 +48,37 @@ info:
   @echo "           {{CY}}*{{NC}} PR 'release/0.3.1' for CI/CD tests (click link to open PR)"
   @echo "           {{CY}}*{{NC}} debug GHA tests"
   @echo "           {{CY}}*{{NC}} GHA-bot auto-merge to main and tag"
-  @echo "       {{CY}}5.{{RD}} TODO:{{NC}} release to homebrew repo on merge to main"
-  @echo "       {{CY}}6.{{NC}} git delete that release branch or maybe GHA does for you"
-  @echo 
-  @echo "   {{BCY}}Running utils in poetry environment{{NC}}"
-  @echo 
-  @echo "       {{GR}}just po wn"
-  @echo "       {{GR}}just po wn --help"
-  @echo "       {{GR}}just po too --help"
-  @echo "       {{GR}}just po too --help"
+  @echo "       {{CY}}5.{{NC}} Publish to PyPI: uv publish"
+  @echo "       {{CY}}6.{{NC}} Install globally: uv tool install desertislandutils"
+  @echo "       {{CY}}7.{{NC}} git delete that release branch or maybe GHA does for you"
   @echo
-  @echo "       {{BBK}}# or directly from poetry shell:{{NC}}"
-  @echo "       {{GR}}poetry shell"
-  @echo "       {{BGR}}wn --help"
+  @echo "   {{BCY}}Running utils in uv environment{{NC}}"
   @echo
-  @echo "# TODO: git push --set-upstream origin release/0.3.9"
+  @echo "       {{GR}}just uv wn"
+  @echo "       {{GR}}just uv wn --help"
+  @echo "       {{GR}}just uv too --help"
+  @echo
+  @echo "       {{BBK}}# or directly via uv run:{{NC}}"
+  @echo "       {{GR}}uv run wn --help"
+  @echo "       {{BGR}}uv run too --help"
+  @echo
+
+# sync dependencies
+sync:
+  uv sync
+
+# sync with dev and test dependencies
+sync-all:
+  uv sync --all-extras
+
+# build package
+build:
+  uv build
+
+# install as global tool (from local source)
+install-local:
+  uv tool install --editable .
+
+# uninstall global tool
+uninstall:
+  uv tool uninstall desertislandutils
