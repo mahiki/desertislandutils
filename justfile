@@ -35,24 +35,24 @@ test *args:
 # INFO: develop, build, deploy
 info:
   @echo
-  @echo "   {{BCY}}Workflow to develop python scripts and deploy via uv tool{{NC}}"
+  @echo "   {{BCY}}Development workflow:{{NC}}"
   @echo
-  @echo "       {{CY}}1.{{NC}} Develop/commit on dev"
-  @echo "       {{CY}}2.{{NC}} just test"
-  @echo "       {{CY}}3.{{NC}} just bump"
-  @echo "       {{CY}}4.{{NC}} git checkout -b release/x.y.z"
-  @echo "           {{CY}}*{{NC}} final TESTS and debug"
-  @echo "           {{CY}}*{{NC}} git push --set-upstream origin release/x.y.z"
-  @echo "           {{CY}}*{{NC}} PR 'release/x.y.z' for CI/CD tests (click link to open PR)"
-  @echo "           {{CY}}*{{NC}} debug GHA tests"
-  @echo "           {{CY}}*{{NC}} GHA-bot auto-merge to main and tag"
-  @echo "       {{CY}}5.{{NC}} Publish to PyPI: uv publish"
-  @echo "       {{CY}}6.{{NC}} Install globally: uv tool install desertislandutils"
-  @echo "       {{CY}}7.{{NC}} git delete that release branch or maybe GHA does for you"
+  @echo "       {{BBK}}1.{{NC}} Develop/commit on dev"
+  @echo "       {{BBK}}2.{{NC}} just test"
+  @echo "       {{BBK}}3.{{NC}} just bump"
+  @echo "       {{BBK}}4.{{NC}} git checkout -b release/x.y.z"
+  @echo "           {{BCY}}*{{NC}} final TESTS and debug"
+  @echo "           {{BCY}}*{{NC}} git push --set-upstream origin release/x.y.z"
+  @echo "           {{BCY}}*{{NC}} PR 'release/x.y.z' for CI/CD tests (click link to open PR)"
+  @echo "       {{BBK}}CICD Handles:{{NC}}"
+  @echo "           {{BCY}}*{{NC}} test package"
+  @echo "           {{BCY}}*{{NC}} merge to main and tag"
+  @echo "           {{BCY}}*{{NC}} publish to PyPI"
+  @echo "       {{BBK}}5.{{NC}} git branch --merged main      {{WT}}# look for local branches to remove{{NC}}"
+  @echo "       {{BBK}}6.{{NC}} git branch --delete release/x.y.z{{NC}}"
   @echo
   @echo "   {{BCY}}Running utils in uv environment{{NC}}"
   @echo
-  @echo "       {{GR}}just uv wn"
   @echo "       {{GR}}just uv wn --help"
   @echo "       {{GR}}just uv too --help"
   @echo

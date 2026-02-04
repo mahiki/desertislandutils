@@ -26,7 +26,7 @@ poetry run pytest --capture=no tests/test_unit.py
 
 # ==================================== test session starts =====================================
 # platform darwin -- Python 3.9.10, pytest-7.1.2, pluggy-1.0.0
-# rootdir: /Users/segovia/repo/python-dev/desertislandutils
+# rootdir: $HOME/repo/python-dev/desertislandutils
 # collected 1 item
 
 # tests/test_unit.py

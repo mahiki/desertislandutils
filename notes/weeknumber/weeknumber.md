@@ -100,7 +100,7 @@ just test tests/wn
             ✙✙✙✙✙✙✙✙    TESTING    ✙✙✙✙✙✙✙✙
 poetry run pytest --disable-warnings --verbose tests/wn
 ========================================================= test session starts ==========================================================
-rootdir: /Users/merlinr/repo/the-others/desertislandutils
+rootdir: $HOME/repo/the-others/desertislandutils
 collected 1 item
 tests/wn/test_wn.py::test_wn_options PASSED                                                                                      [100%]
 ```

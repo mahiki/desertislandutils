@@ -34,25 +34,25 @@ So new PR is automatically created for a 'release' branch pushed to remove
 ```bash
 # from desertislandtils
 poetry shell
-# /Users/segovia/Library/Caches/pypoetry/virtualenvs/desertislandutils-AVSNhiuH-py3.9
+# $HOME/Library/Caches/pypoetry/virtualenvs/desertislandutils-AVSNhiuH-py3.9
 
-ls /Users/segovia/Library/Caches/pypoetry/virtualenvs/desertislandutils-AVSNhiuH-py3.9/bin/too
+ls $HOME/Library/Caches/pypoetry/virtualenvs/desertislandutils-AVSNhiuH-py3.9/bin/too
 # This is the executable made on 2022-03-18
 # I need to build the new executable, or
 
-cd "/Users/segovia/andromeda/house/selling-stuff"
-python /Users/segovia/repo/python-dev/desertislandutils/src/toobigdatadoc/too.py --help
+cd "$HOME/andromeda/house/selling-stuff"
+python $HOME/repo/python-dev/desertislandutils/src/toobigdatadoc/too.py --help
 
 ls -l doc/
 # lrwxr-xr-x 1  45 Jul  8 11:37 doc -> ../../../toodoc/andromeda/house/selling-stuff
 
 mv doc dc
-python /Users/segovia/repo/python-dev/desertislandutils/src/toobigdatadoc/too.py doc
+python $HOME/repo/python-dev/desertislandutils/src/toobigdatadoc/too.py doc
 unlink dc
 
 # new doc/ points to same toodoc folder as the relative one
 ls -l
-lrwxr-xr-x 1  51 Jul 22 13:39 doc -> /Users/segovia/toodoc/andromeda/house/selling-stuff
+lrwxr-xr-x 1  51 Jul 22 13:39 doc -> $HOME/toodoc/andromeda/house/selling-stuff
 # PASS
 ```
 
@@ -70,7 +70,7 @@ l dist
 # Jul 22 13:53 desertislandutils-0.2.0-py3-none-any.whl
 
 # no tar.gz was made, and this file is unchanged
-ls -l /Users/segovia/Library/Caches/pypoetry/virtualenvs/desertislandutils-AVSNhiuH-py3.9/bin/too
+ls -l $HOME/Library/Caches/pypoetry/virtualenvs/desertislandutils-AVSNhiuH-py3.9/bin/too
 ```
 
 Where to find my steps for creating tarball and homebrew deployment?

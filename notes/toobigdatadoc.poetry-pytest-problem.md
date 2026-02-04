@@ -5,8 +5,8 @@
 
 but poetry does this to make the executable:
 ```sh
-rich /Users/segovia/Library/Caches/pypoetry/virtualenvs/desertislandutils-AVSNhiuH-py3.9/bin/too
-#!/Users/segovia/Library/Caches/pypoetry/virtualenvs/desertislandutils-AVSNhiuH-py3.9/bin/python
+rich $HOME/Library/Caches/pypoetry/virtualenvs/desertislandutils-AVSNhiuH-py3.9/bin/too
+#!$HOME/Library/Caches/pypoetry/virtualenvs/desertislandutils-AVSNhiuH-py3.9/bin/python
 from src.toobigdatadoc.too import main
 
 if __name__ == '__main__':
