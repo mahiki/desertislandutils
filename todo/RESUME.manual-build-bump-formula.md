@@ -78,7 +78,7 @@ brew info mahiki/tap/desertislandutils
 mcd desertislandutils
 too big
 ls -la
-lrwxr-xr-x 1 55 Aug  2 09:25 big -> /Users/segovia/toobig/trashwork/tests/desertislandutils
+lrwxr-xr-x 1 55 Aug  2 09:25 big -> $HOME/toobig/trashwork/tests/desertislandutils
 ```
 
 ### DONE

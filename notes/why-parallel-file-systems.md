@@ -30,7 +30,7 @@ A: The `andromeda` folder becomes a complete set of notes, journal, project idea
 ```bash
 ## PARALLEL STORAGE EXAMPLE ##
 Tree $HOME/toodoc -L 4
-/Users/segovia/toodoc
+$HOME/toodoc
     ├── andromeda
     │   └── school-search
     │       └── spruce-street
@@ -43,8 +43,8 @@ Tree $HOME/toodoc -L 4
                 ├── 2021-12-21_aaron-50th-birthday-chat_002.png
                 └── 2021-12-21_aaron-50th-birthday-chat_003.png
 
-tree /Users/segovia/andromeda/ -L 4
-/Users/segovia/andromeda
+tree $HOME/andromeda/ -L 4
+$HOME/andromeda
     ├──journal-in-markdown
         ├── journal
             └── 2021
@@ -54,12 +54,12 @@ tree /Users/segovia/andromeda/ -L 4
                 ├── 2022-03-10.another-example.md
                 └── doc ->  ../../../../../toodoc/andromeda/journal-in-markdown/personal-journal/2021/doc
                 # or absolute one:
-                └── doc ->  /Users/segovia/toodoc/andromeda/journal-in-markdown/personal-journal/2021/doc
+                └── doc ->  $HOME/toodoc/andromeda/journal-in-markdown/personal-journal/2021/doc
 
 
 ## MIXED STORAGE EXAMPLE ##
-tree /Users/segovia/andromeda/ -L 4
-/Users/segovia/andromeda
+tree $HOME/andromeda/ -L 4
+$HOME/andromeda
     ├──journal-in-markdown
         ├── journal
             └── 2021

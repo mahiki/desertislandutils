@@ -64,9 +64,9 @@ poetry run too --help
 
 # install within the Poetry environment
     #   (desertislandutils-AVSNhiuH-py3.9)
-python3 -m pip install /Users/segovia/repo/python-dev/desertislandutils/dist/desertislandutils-0.1.0-py3-none-any.whl
+python3 -m pip install $HOME/repo/python-dev/desertislandutils/dist/desertislandutils-0.1.0-py3-none-any.whl
 which too
-    # /Users/segovia/Library/Caches/pypoetry/virtualenvs/desertislandutils-AVSNhiuH-py3.9/bin/too
+    # $HOME/Library/Caches/pypoetry/virtualenvs/desertislandutils-AVSNhiuH-py3.9/bin/too
 
 too --help
 #   success, help file and working folder
@@ -81,14 +81,14 @@ FIXED: Absolutely no idea how to run my `too --help` command. The problem was in
 ### pipx install wheel to global namespace
 ```bash
 brew install pipx
-pipx install /Users/segovia/repo/python-dev/desertislandutils/dist/desertislandutils-0.1.0-py3-none-any.whl
+pipx install $HOME/repo/python-dev/desertislandutils/dist/desertislandutils-0.1.0-py3-none-any.whl
 
 which too
-    # /Users/segovia/repo/enviro-repo/osx-base/dotfiles/.local/bin/too
+    # $HOME/repo/enviro-repo/osx-base/dotfiles/.local/bin/too
 
 # did the import work right?
 bat $(which too)
-# File: /Users/segovia/repo/enviro-repo/osx-base/dotfiles/.local/bin/too
+# File: $HOME/repo/enviro-repo/osx-base/dotfiles/.local/bin/too
 #    5   │ from src.toobigdatadoc.__main__ import main
 
 too --help
@@ -121,7 +121,7 @@ pipx install pycowsay
     # These apps are now globally available
         # - pycowsay
 
-l bat /Users/segovia/repo/enviro-repo/osx-base/dotfiles/.local/pipx/venvs/pycowsay/lib/python3.10/site-packages/pycowsay/main.py
+l bat $HOME/repo/enviro-repo/osx-base/dotfiles/.local/pipx/venvs/pycowsay/lib/python3.10/site-packages/pycowsay/main.py
    1   │ #!/usr/bin/env python
    2   │ # -*- coding: utf-8 -*-
 ...

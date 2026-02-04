@@ -1,6 +1,6 @@
 [project]
 name = "desertislandutils"
-version = "0.4.3"
+version = "0.4.4"
 description = "A collection of personal convenience utilities"
 authors = [{name = "mahiki", email = "mahiki@users.noreply.github.com"}]
 license = {text = "MIT"}

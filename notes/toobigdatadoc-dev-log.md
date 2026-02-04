@@ -70,13 +70,12 @@ DONE: repo added to github. remindme has thing to push to new github.
 ## BLUSH-RESPONSE: SCRIPT SKELETON
 ```bash
 poetry shell
-# Spawning shell within /Users/segovia/Library/Caches/pypoetry/virtualenvs/desertislandutils-AVSNhiuH-py3.9
-# . /Users/segovia/Library/Caches/pypoetry/virtualenvs/desertislandutils-AVSNhiuH-py3.9/bin/activate
+# Spawning shell within $HOME/Library/Caches/pypoetry/virtualenvs/desertislandutils-AVSNhiuH-py3.9
+# . $HOME/Library/Caches/pypoetry/virtualenvs/desertislandutils-AVSNhiuH-py3.9/bin/activate
 
 # add poetry dependency, not pathlib is in standard library
 poetry add argparse
 
-# (desertislandutils-AVSNhiuH-py3.9) Kehena segovia: ~/repo/python-dev/desertislandutils
 poetry run python src/toobigdatadoc/too.py data
 # arg1: data
 # name: __main__
@@ -154,9 +153,9 @@ repo_root = repo.working_tree_dir
 
 # relative path from repo root
 repo_root = get_repo_root(Path.cwd())
-    # PosixPath('/Users/segovia/repo/python-dev/desertislandutils')
+    # PosixPath('$HOME/repo/python-dev/desertislandutils')
 curdir = Path.cwd()
-    # PosixPath('/Users/segovia/repo/python-dev/desertislandutils/src/toobigdatadoc')
+    # PosixPath('$HOME/repo/python-dev/desertislandutils/src/toobigdatadoc')
 curdir.relative_to(repo_root)
     # PosixPath('src/toobigdatadoc')
 
@@ -177,7 +176,7 @@ def getGitRoot():
 * i guess assemble all those dots manually by counting sections
 
 ```bash
-ln -s --relative /Users/segovia/toobig/desertislandutils/tests/big_folder_test bigg
+ln -s --relative $HOME/toobig/desertislandutils/tests/big_folder_test bigg
 ls
     # bigg -> ../../../../../toobig/desertislandutils/tests/big_folder_test
 ```
@@ -202,7 +201,7 @@ Path(dots_home) / topname
 ## BLUSH-RESPONSE: too topdir
 Here's what I'm going for in bash:
 ```bash
-# Kehena segovia: ~/andromeda/school-search/spruce-street
+# ~/andromeda/school-search/spruce-street
 
 mkdir -p $HOME/toodoc/andromeda/school-search/spruce-street
 ln -s ../../../toodoc/andromeda/school-search/spruce-street doc
@@ -273,9 +272,9 @@ done
 for dir in 'toobig' 'toodata' 'toodoc'; do
 ls -1 ~/$dir/**/testfile.txt
 done | sort
-    # /Users/segovia/toobig/andromeda/finance/kapital/stelar/testfile.txt
-    # /Users/segovia/toodata/andromeda/finance/kapital/stelar/testfile.txt
-    # /Users/segovia/toodoc/andromeda/finance/kapital/stelar/testfile.txt
+    # $HOME/toobig/andromeda/finance/kapital/stelar/testfile.txt
+    # $HOME/toodata/andromeda/finance/kapital/stelar/testfile.txt
+    # $HOME/toodoc/andromeda/finance/kapital/stelar/testfile.txt
 ```
 
 ## VOIGHT-KAMPFF: PASS git repo folders
@@ -311,9 +310,9 @@ done
 for dir in 'toobig' 'toodata' 'toodoc'; do
 ls -1 ~/$dir/**/testfile.txt
 done | sort
-    # /Users/segovia/toobig/datasci/biq/biq-206/testfile.txt
-    # /Users/segovia/toodata/datasci/biq/biq-206/testfile.txt
-    # /Users/segovia/toodoc/datasci/biq/biq-206/testfile.txt
+    # $HOME/toobig/datasci/biq/biq-206/testfile.txt
+    # $HOME/toodata/datasci/biq/biq-206/testfile.txt
+    # $HOME/toodoc/datasci/biq/biq-206/testfile.txt
 
 ```
 
