@@ -35,7 +35,7 @@ on:
         - success
 
 jobs:
-  poetry-run-tests:
+  uv-run-tests:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -43,17 +43,15 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Poetry
+      - name: Install UV
+        uses: astral-sh/setup-uv@v5
+
+      - name: UV Sync and Test
         run: |
           python --version
-          pipx install --python $(which python) poetry
-          poetry --version
-          poetry install
-          poetry show --latest
-
-      - name: Poetry Run Pytest
-        run: |
-          poetry run pytest --disable-warnings --verbose
+          uv --version
+          uv sync --all-extras
+          uv run pytest --disable-warnings --verbose
           echo "WARNING: Pytest Warnings are disabled"
 
       - name: Get Latest Tag
@@ -65,8 +63,8 @@ jobs:
       - name: Get desertislandutils Version
         id: app_version
         run: |
-          poetry_app_version="$(poetry version --short)"
-          echo poetry_app_version="v${poetry_app_version}" >> $GITHUB_OUTPUT
+          app_version="$(uv version | awk '{print $2}')"
+          echo app_version="v${app_version}" >> $GITHUB_OUTPUT
 
       - name: REFERENCE - Variables and Workflow Contexts
         run: |
@@ -76,4 +74,4 @@ jobs:
           echo "commit ref name:  ${{ github.ref_name }}"
           echo "branch name: ${{ github.ref }}"
           echo "latest tag: ${{ steps.get_tag.outputs.latest_tag }}"
-          echo "poetry app version: ${{ steps.app_version.outputs.poetry_app_version }}"
+          echo "app version: ${{ steps.app_version.outputs.app_version }}"
