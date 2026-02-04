@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "desertislandutils"
-version = "0.3.15"
+version = "0.3.16"
 description = "A collection of personal convenience utilities"
 authors = ["mahiki <mahiki@users.noreply.github.com>"]
 license = "MIT"
@@ -14,7 +14,7 @@ readme = "README.md"
 python = "^3.11"
 argparse = "^1.4.0"
 GitPython = "^3.1.27"
-typer = {extras = ["all"], version = "^0.9.0"}
+typer = {extras = ["all"], version = "^0.12.0"}
 pendulum = "^3.0.0"
 
 [tool.poetry.group.dev.dependencies]
