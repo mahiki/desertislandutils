@@ -29,6 +29,7 @@ bump level="patch":
 test *args:
   @echo
   @echo "            ✙✙✙✙✙✙✙✙    TESTING    ✙✙✙✙✙✙✙✙"
+  uv sync --all-extras
   uv run pytest --disable-warnings --verbose {{args}}
 
 # INFO: develop, build, deploy
@@ -54,10 +55,6 @@ info:
   @echo "       {{GR}}just uv wn"
   @echo "       {{GR}}just uv wn --help"
   @echo "       {{GR}}just uv too --help"
-  @echo
-  @echo "       {{BBK}}# or directly via uv run:{{NC}}"
-  @echo "       {{GR}}uv run wn --help"
-  @echo "       {{BGR}}uv run too --help"
   @echo
 
 # sync dependencies
